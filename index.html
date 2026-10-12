@@ -73,13 +73,14 @@ h3.sub{font-size:20px;margin:0 0 12px}
 .topic h3{color:var(--white);font-size:26px;margin:0}
 
 .lessons{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
-.lesson{display:flex;align-items:center;gap:16px;width:100%;text-align:left;font:inherit;color:inherit;background:var(--white);border:1px solid var(--line);border-left:4px solid var(--gold);box-shadow:var(--shadow);padding:18px 20px;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
+.lesson{display:flex;flex-direction:column;align-items:flex-start;gap:16px;width:100%;text-align:left;font:inherit;color:inherit;background:var(--white);border:1px solid var(--line);border-left:4px solid var(--gold);box-shadow:var(--shadow);padding:18px 20px;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
 .lesson:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(30,42,56,.16)}
+.lesson-top{display:flex;align-items:center;gap:16px;width:100%}
 .lesson .pdf{flex:none;width:46px;height:56px;display:flex;align-items:center;justify-content:center;background:var(--red);color:var(--white);font:700 13px/1 'Source Sans 3',sans-serif;letter-spacing:.06em;border-radius:3px}
 .lesson .info{flex:1;min-width:0}
 .lesson b{display:block;font-weight:600}
 .lesson small{color:var(--soft);font-size:14.5px}
-.lesson .go{flex:none;font-size:13px;font-weight:600;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:3px 12px;white-space:nowrap}
+.lesson .go{font-size:13px;font-weight:600;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:3px 12px;white-space:nowrap}
 
 .viewer{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:3vh 3vw;background:rgba(30,42,56,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);animation:fade .25s ease}
 .viewer[hidden]{display:none}
@@ -89,12 +90,11 @@ h3.sub{font-size:20px;margin:0 0 12px}
 .viewer-close:hover{background:var(--ink);color:var(--white)}
 .viewer-close svg{width:20px;height:20px}
 .viewer-title{flex:1;min-width:0;font:600 17px 'Fraunces',serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.viewer-open{flex:none;font-size:14px;font-weight:600;color:var(--soft)}
 .viewer iframe{flex:1;width:100%;border:0;background:#e9e6dc}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @keyframes pop{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.viewer,.viewer-box{animation:none}}
-@media(max-width:600px){.viewer{padding:0}.viewer-box{border-radius:0}.viewer-open{display:none}.lessons{grid-template-columns:1fr}}
+@media(max-width:600px){.viewer{padding:0}.viewer-box{border-radius:0}.lessons{grid-template-columns:1fr}}
 
 .chart{background:var(--white);border:1px solid var(--line);box-shadow:var(--shadow);padding:26px 28px}
 .chart h3{font-size:19px}
@@ -209,22 +209,27 @@ footer{background:var(--ink);color:rgba(242,236,221,.7);padding:28px 24px;text-a
     <h3 class="sub">Конспекти та плани уроків</h3>
     <div class="lessons">
       <button type="button" class="lesson" data-pdf="pdf/lesson-1.pdf">
-        <span class="pdf">PDF</span>
-        <span class="info"><b>[Назва конспекту / плану уроку]</b><small>[Клас, тема, рік]</small></span>
+        <div class="lesson-top">
+          <span class="pdf">PDF</span>
+          <span class="info"><b>[Назва конспекту / плану уроку]</b></span>
+        </div>
         <span class="go">Переглянути</span>
       </button>
       <button type="button" class="lesson" data-pdf="pdf/lesson-2.pdf">
-        <span class="pdf">PDF</span>
-        <span class="info"><b>[Назва конспекту / плану уроку]</b><small>[Клас, тема, рік]</small></span>
+        <div class="lesson-top">
+          <span class="pdf">PDF</span>
+          <span class="info"><b>[Назва конспекту / плану уроку]</b></span>
+        </div>
         <span class="go">Переглянути</span>
       </button>
       <button type="button" class="lesson" data-pdf="pdf/lesson-3.pdf">
-        <span class="pdf">PDF</span>
-        <span class="info"><b>[Назва конспекту / плану уроку]</b><small>[Клас, тема, рік]</small></span>
+        <div class="lesson-top">
+          <span class="pdf">PDF</span>
+          <span class="info"><b>[Назва конспекту / плану уроку]</b></span>
+        </div>
         <span class="go">Переглянути</span>
       </button>
     </div>
-    <p class="note">Аналітична записка: коротко опишіть, що вдалося зробити в цьому напрямі і чому саме так.</p>
   </div>
 </section>
 
@@ -312,7 +317,6 @@ footer{background:var(--ink);color:rgba(242,236,221,.7);padding:28px 24px;text-a
         Назад
       </button>
       <span class="viewer-title" id="viewerTitle"></span>
-      <a class="viewer-open" id="viewerOpen" href="#" target="_blank" rel="noopener">Відкрити окремо</a>
     </div>
     <iframe id="viewerFrame" title="PDF-документ" src="about:blank"></iframe>
   </div>
@@ -363,7 +367,6 @@ footer{background:var(--ink);color:rgba(242,236,221,.7);padding:28px 24px;text-a
   const viewer = document.getElementById('viewer');
   const frame = document.getElementById('viewerFrame');
   const vTitle = document.getElementById('viewerTitle');
-  const vOpen = document.getElementById('viewerOpen');
   const vClose = document.getElementById('viewerClose');
   let lastBtn = null;
 
@@ -371,7 +374,6 @@ footer{background:var(--ink);color:rgba(242,236,221,.7);padding:28px 24px;text-a
     lastBtn = btn;
     const src = btn.dataset.pdf;
     vTitle.textContent = btn.querySelector('b').textContent;
-    vOpen.href = src;
     frame.src = src + '#view=FitH';
     viewer.hidden = false;
     document.body.style.overflow = 'hidden';
