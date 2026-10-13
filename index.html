@@ -73,9 +73,7 @@ nav a.active{background:var(--sun);color:var(--navy)}
 
 #general{background:var(--paper);padding-top:70px}
 #method{background:var(--white)}
-#results{position:relative;z-index:1;background:var(--navy);color:var(--white);padding-bottom:190px;clip-path:polygon(0 0,100% 0,100% 100%,0 calc(100% - 80px))}
 
-#courses{background:var(--white);margin-top:-80px;padding-top:190px}
 #docs{background:var(--paper)}
 
 /* рядки (освіта, позакласна, курси) */
@@ -119,6 +117,7 @@ nav a.active{background:var(--sun);color:var(--navy)}
 .lesson:hover{transform:translate(-5px,-5px);box-shadow:8px 8px 0 var(--sun);background:var(--white)}
 .lesson-top{display:flex;align-items:flex-start;gap:16px;width:100%}
 .lesson .pdf{flex:none;width:46px;height:56px;display:flex;align-items:center;justify-content:center;background:var(--cobalt);color:var(--white);font:700 12px/1 var(--disp);letter-spacing:0}
+.lesson .pdf.ph{font-size:9.5px;letter-spacing:-.02em;padding:0 2px;overflow:hidden}
 .lesson .info{flex:1;min-width:0}
 .lesson b{display:block;font-weight:700;font-size:18px;line-height:1.3}
 .lesson small{color:var(--muted);font-size:14.5px}
@@ -134,6 +133,8 @@ nav a.active{background:var(--sun);color:var(--navy)}
 .viewer-close svg{width:20px;height:20px}
 .viewer-title{flex:1;min-width:0;font:700 16px var(--disp);letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .viewer iframe{flex:1;width:100%;border:0;background:#e9e6dc}
+.viewer video{flex:1;min-height:0;width:100%;background:#000;object-fit:contain}
+.viewer video[hidden]{display:none}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @keyframes pop{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
 @media(max-width:600px){.viewer{padding:0}.lessons{grid-template-columns:1fr}.topic{padding:30px 26px}.topic.alt{padding:22px 26px}}
@@ -143,7 +144,7 @@ nav a.active{background:var(--sun);color:var(--navy)}
 .thumbs img{flex:1;min-width:0;height:84px;object-fit:cover;border:2px solid var(--ink);background:#DDE2FF}
 .thumbs .more{flex:none;display:flex;align-items:center;justify-content:center;min-width:56px;padding:0 10px;font:700 14px var(--disp);background:var(--ink);color:var(--white)}
 .viewer-tabs{display:flex;gap:8px;padding:10px 18px;border-bottom:1px solid var(--line);background:var(--paper)}
-.viewer-tabs[hidden]{display:none}
+.viewer-tabs[hidden],.viewer-tabs button[hidden]{display:none}
 .viewer-tabs button{font:700 15px var(--body);color:var(--ink);background:transparent;border:2px solid var(--ink);border-radius:999px;padding:6px 18px;cursor:pointer;transition:background .2s ease,color .2s ease}
 .viewer-tabs button[aria-selected=true]{background:var(--ink);color:var(--white)}
 .viewer-photos{flex:1;overflow-y:auto;padding:22px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;align-content:start;background:var(--paper)}
@@ -163,29 +164,6 @@ nav a.active{background:var(--sun);color:var(--navy)}
 .lb-count{position:absolute;bottom:20px;left:0;right:0;text-align:center;color:rgba(255,255,255,.8);font-size:15px}
 @media(max-width:600px){.lb-btn{width:44px;height:44px}.lb-prev{left:8px}.lb-next{right:8px}.viewer-photos{grid-template-columns:repeat(2,1fr);padding:14px;gap:10px}}
 
-/* результати */
-.chart{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.16);padding:30px 32px}
-.chart h3{font-size:18px;font-weight:700}
-.bars{display:flex;align-items:flex-end;gap:22px;height:280px;border-bottom:3px solid var(--white);margin-top:26px}
-.bar-col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%}
-.bar-col i{display:block;width:100%;max-width:84px;background:var(--cobalt-lt);transition:height .9s cubic-bezier(.2,.8,.2,1)}
-.bar-col:last-child i{background:var(--sun)}
-.bar-col span{font:700 16px var(--disp);margin-bottom:8px;letter-spacing:-.02em}
-.bar-col:last-child span{color:var(--sun)}
-.labels{display:flex;gap:22px;margin-top:10px}
-.labels span{flex:1;text-align:center;color:rgba(255,255,255,.65);font-size:14px}
-.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:30px}
-.kpi{border-top:4px solid var(--sun);padding:20px 0 0}
-.kpi b{display:block;font:800 clamp(34px,4.2vw,54px)/1 var(--disp);color:var(--sun);letter-spacing:-.04em;margin-bottom:10px}
-.kpi span{color:rgba(255,255,255,.75);font-size:15.5px;display:block;max-width:24ch}
-#results h3.sub{margin-top:56px}
-table{width:100%;border-collapse:collapse;background:var(--white);color:var(--ink);font-size:15.5px}
-th,td{text-align:left;padding:15px 20px;border-bottom:1px solid var(--line)}
-th{background:var(--cobalt);color:var(--white);font-size:14.5px;font-weight:600}
-tr:last-child td{border:none}
-tbody tr:hover td{background:#EEF1FF}
-.scroll{overflow-x:auto}
-@media(max-width:600px){.kpis{grid-template-columns:1fr}.bars,.labels{gap:8px}.chart{padding:24px 18px}}
 
 /* документи */
 .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
@@ -204,8 +182,12 @@ tbody tr:hover td{background:#EEF1FF}
 .doc h3{font:700 17px/1.3 var(--body);letter-spacing:-.01em;margin:0 0 4px}
 .doc p{margin:0;color:var(--muted);font-size:15px}
 
+/* справжні сертифікати/дипломи (фото з папок) */
+.doc.real .img{width:100%;border:0;border-bottom:2px solid var(--ink);background:var(--white);cursor:zoom-in;font:inherit;padding:0}
+.doc.real .img img{inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);object-fit:contain;box-shadow:0 4px 16px rgba(14,19,48,.22);background:var(--white)}
+.doc.real .img::after{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--sun)}
 footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-align:center;font-size:15px;border-top:6px solid var(--sun)}
-@media print{header,.filters,.viewer{display:none}#top,#results{clip-path:none;padding:40px 0}#courses{margin-top:0;padding-top:28px}section{break-inside:avoid;padding:28px 0}}
+@media print{header,.filters,.viewer{display:none}#top{clip-path:none;padding:40px 0}section{break-inside:avoid;padding:28px 0}}
 
 /* ===== МОБІЛЬНА ВЕРСІЯ (єдиний блок, стоїть останнім) ===== */
 @media(max-width:860px){
@@ -257,27 +239,11 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   .lesson{min-height:0;gap:18px;padding:18px 16px}
   .lesson b{font-size:16.5px}
   .lesson .pdf{width:40px;height:48px;font-size:11px}
+  .lesson .pdf.ph{font-size:8.5px}
   .lesson .go{padding:8px 16px}
   .thumbs img{height:64px}
 
-  /* результати */
-  #results{padding-bottom:120px;clip-path:polygon(0 0,100% 0,100% 100%,0 calc(100% - 40px))}
-  #courses{margin-top:-40px;padding-top:110px}
-  .chart{padding:20px 14px}
-  .chart h3{font-size:16px}
-  .bars{height:230px;gap:6px;margin-top:20px}
-  .labels{gap:6px}
-  .labels span{font-size:11.5px;letter-spacing:-.02em}
-  .bar-col span{font-size:13px}
-  .kpis{grid-template-columns:minmax(0,1fr);gap:18px;margin-top:24px}
-  .kpi b{font-size:40px}
-  .kpi span{max-width:none}
-  #results h3.sub{margin-top:40px}
-  .scroll{-webkit-overflow-scrolling:touch;margin-right:calc(-1 * max(20px,env(safe-area-inset-right)));padding-right:max(20px,env(safe-area-inset-right))}
-  table{min-width:520px;font-size:14px}
-  th,td{padding:12px 14px}
-
-  /* рядки (освіта, курси) */
+  /* рядки (освіта, атестація) */
   .row,.rows.edu .row{grid-template-columns:minmax(0,1fr);gap:6px;padding:20px 2px}
   .row .y{font-size:17px}
   .row b{font-size:17px}
@@ -321,7 +287,6 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   .lesson:hover,.doc:hover,.viewer-photos button:hover{transform:none;box-shadow:none;background:inherit}
   .lesson:hover{background:var(--paper)}
   .row:hover{background:none}
-  tbody tr:hover td{background:var(--white)}
 }
 </style>
 </head>
@@ -332,8 +297,6 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
     <a href="#top">Головна</a>
     <a href="#general">Відомості</a>
     <a href="#method">Методична робота</a>
-    <a href="#results">Результати</a>
-    <a href="#courses">Курси</a>
     <a href="#docs">Документи</a>
   </nav>
 </header>
@@ -350,7 +313,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       </div>
       <div class="photo">
         Фото вчителя
-        <img src="photo_2026-10-05_11-17-48.jpg" alt="Алла Петльована">
+        <img src="photo_2026-10-05_11-17-23.jpg" alt="Алла Петльована">
       </div>
     </div>
   </div>
@@ -361,10 +324,14 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
     <div class="head"><span class="n">1</span><h2>Загальні відомості про вчителя</h2></div>
     <div class="body">
       <h3 class="sub">Про мене</h3>
-      <div class="about"><p>[Кілька речень про себе: чим займаєтесь, що цінуєте в роботі, що надихає на уроках.]</p></div>
+      <div class="about">
+        <p>Я — учитель англійської мови з понад семирічним педагогічним досвідом. Люблю свою професію та прагну зробити кожен урок цікавим, сучасним і корисним для учнів.</p>
+        <p>У своїй роботі використовую інтерактивні методи навчання, цифрові технології, творчі завдання та методику CLIL, яка допомагає поєднувати вивчення англійської мови з пізнанням світу.</p>
+        <p>Переконана, що кожна дитина має свій потенціал. Моє завдання — допомогти учням розкрити здібності, повірити у власні сили та навчитися впевнено використовувати англійську мову в житті.</p>
+      </div>
 
       <h3 class="sub">Педагогічне кредо</h3>
-      <blockquote class="creed"><p>[Цитата — ваше педагогічне кредо]</p></blockquote>
+      <blockquote class="creed"><p>Навчаю мови — відкриваю можливості. Надихаю пізнавати — допомагаю досягати.</p></blockquote>
 
       <h3 class="sub">Трудова діяльність</h3>
       <div class="tenure">
@@ -463,7 +430,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
           <span class="go">Переглянути</span>
         </button>
 
-        <button type="button" class="lesson" data-pdf="method-lesson-4.pdf" data-photos="photos/dot-day/1.jpg, photos/dot-day/2.jpg, photos/dot-day/3.jpg, photos/dot-day/4.jpg, photos/dot-day/5.jpg">
+        <button type="button" class="lesson" data-pdf="method-lesson-4.pdf" data-photos="photos/dot-day/1.jpg, photos/dot-day/2.jpg, photos/dot-day/3.jpg, photos/dot-day/4.jpg, photos/dot-day/5.jpg" data-video="videos/lesson-1.mp4">
           <div class="lesson-top">
             <span class="pdf">PDF</span>
             <span class="info"><b>International Dot Day Lesson</b></span>
@@ -479,51 +446,14 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
           <span class="go">Переглянути</span>
         </button>
 
-      </div>
-    </div>
-  </div>
-</section>
+        <button type="button" class="lesson" data-pdf="method-lesson-6.pdf" data-photos="photos/euday/1.jpg, photos/euday/2.jpg, photos/euday/3.jpg, photos/euday/4.jpg, photos/euday/5.jpg">
+          <div class="lesson-top">
+            <span class="pdf">PDF</span>
+            <span class="info"><b>Europe Day Lesson</b></span>
+          </div>
+          <span class="go">Переглянути</span>
+        </button>
 
-<section id="results" class="dark">
-  <div class="wrap split">
-    <div class="head"><span class="n">3</span><h2>Результати педагогічної діяльності</h2></div>
-    <div class="body">
-      <p class="lead">Динаміка за останні 3–5 років: якість знань, результати іспитів, участь учнів в олімпіадах і конкурсах.</p>
-      <div class="chart">
-        <h3>Якість знань з англійської мови, %</h3>
-        <div class="bars" id="bars" role="img" aria-label="Діаграма якості знань за роками"></div>
-        <div class="labels" id="barLabels"></div>
-        <p class="note">Показано приклад даних. Змініть значення в масиві <code>data</code> в кінці файлу.</p>
-      </div>
-      <div class="kpis">
-        <div class="kpi"><b>[00]%</b><span>учнів з достатнім і високим рівнем</span></div>
-        <div class="kpi"><b>[00]</b><span>призових місць учнів в олімпіадах</span></div>
-        <div class="kpi"><b>[00]</b><span>учнів — учасників конкурсів</span></div>
-      </div>
-      <h3 class="sub">Досягнення учнів</h3>
-      <div class="scroll">
-        <table>
-          <thead><tr><th>Рік</th><th>Учень / клас</th><th>Захід</th><th>Результат</th></tr></thead>
-          <tbody>
-            <tr><td>[рік]</td><td>[Прізвище, клас]</td><td>[Олімпіада / конкурс, рівень]</td><td>[місце]</td></tr>
-            <tr><td>[рік]</td><td>[Прізвище, клас]</td><td>[Олімпіада / конкурс, рівень]</td><td>[місце]</td></tr>
-            <tr><td>[рік]</td><td>[Прізвище, клас]</td><td>[Олімпіада / конкурс, рівень]</td><td>[місце]</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="courses">
-  <div class="wrap split">
-    <div class="head"><span class="n">4</span><h2>Підвищення кваліфікації</h2></div>
-    <div class="body">
-      <p class="lead">Курси, тренінги та вебінари за останні 5 років.</p>
-      <div class="rows">
-        <div class="row"><span class="y">[рік]</span><div><b>[Назва програми підвищення кваліфікації]</b><small>[Організація]</small></div><span class="tag">[000] год.</span></div>
-        <div class="row"><span class="y">[рік]</span><div><b>[Онлайн-курс]</b><small>[Платформа]</small></div><span class="tag">[00] год.</span></div>
-        <div class="row"><span class="y">[рік]</span><div><b>[Вебінар / тренінг]</b><small>[Організатор]</small></div><span class="tag">[0] год.</span></div>
       </div>
     </div>
   </div>
@@ -531,9 +461,8 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
 
 <section id="docs">
   <div class="wrap split">
-    <div class="head"><span class="n">5</span><h2>Офіційні документи</h2></div>
+    <div class="head"><span class="n">3</span><h2>Сертифікати та дипломи</h2></div>
     <div class="body">
-      <p class="lead">Дипломи, сертифікати, грамоти та подяки. Замініть підписи і додайте фото документів.</p>
       <div class="filters" id="filters">
         <button aria-pressed="true" data-f="all">Усі</button>
         <button aria-pressed="false" data-f="Диплом">Дипломи</button>
@@ -542,12 +471,12 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
         <button aria-pressed="false" data-f="Подяка">Подяки</button>
       </div>
       <div class="docs" id="docGrid">
-        <article class="doc" data-t="Диплом"><div class="img">Фото документа</div><div class="b"><div class="t">Диплом</div><h3>[Диплом про вищу освіту]</h3><p>[Заклад], [рік]</p></div></article>
-        <article class="doc" data-t="Сертифікат"><div class="img">Фото документа</div><div class="b"><div class="t">Сертифікат</div><h3>[Сертифікат про підвищення кваліфікації]</h3><p>[Організація], [рік]</p></div></article>
-        <article class="doc" data-t="Сертифікат"><div class="img">Фото документа</div><div class="b"><div class="t">Сертифікат</div><h3>[Міжнародний сертифікат, напр. TKT / CELTA]</h3><p>[Організація], [рік]</p></div></article>
-        <article class="doc" data-t="Грамота"><div class="img">Фото документа</div><div class="b"><div class="t">Грамота</div><h3>[Почесна грамота]</h3><p>[Хто нагородив], [рік]</p></div></article>
-        <article class="doc" data-t="Подяка"><div class="img">Фото документа</div><div class="b"><div class="t">Подяка</div><h3>[Подяка за підготовку призерів]</h3><p>[Організація], [рік]</p></div></article>
-        <article class="doc" data-t="Подяка"><div class="img">Фото документа</div><div class="b"><div class="t">Подяка</div><h3>[Лист-подяка від батьків]</h3><p>[Клас], [рік]</p></div></article>
+        <article class="doc" data-placeholder data-t="Диплом"><div class="img">Фото документа</div><div class="b"><div class="t">Диплом</div><h3>[Диплом про вищу освіту]</h3><p>[Заклад], [рік]</p></div></article>
+        <article class="doc" data-placeholder data-t="Сертифікат"><div class="img">Фото документа</div><div class="b"><div class="t">Сертифікат</div><h3>[Сертифікат про підвищення кваліфікації]</h3><p>[Організація], [рік]</p></div></article>
+        <article class="doc" data-placeholder data-t="Сертифікат"><div class="img">Фото документа</div><div class="b"><div class="t">Сертифікат</div><h3>[Міжнародний сертифікат, напр. TKT / CELTA]</h3><p>[Організація], [рік]</p></div></article>
+        <article class="doc" data-placeholder data-t="Грамота"><div class="img">Фото документа</div><div class="b"><div class="t">Грамота</div><h3>[Почесна грамота]</h3><p>[Хто нагородив], [рік]</p></div></article>
+        <article class="doc" data-placeholder data-t="Подяка"><div class="img">Фото документа</div><div class="b"><div class="t">Подяка</div><h3>[Подяка за підготовку призерів]</h3><p>[Організація], [рік]</p></div></article>
+        <article class="doc" data-placeholder data-t="Подяка"><div class="img">Фото документа</div><div class="b"><div class="t">Подяка</div><h3>[Лист-подяка від батьків]</h3><p>[Клас], [рік]</p></div></article>
       </div>
     </div>
   </div>
@@ -566,9 +495,11 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
     </div>
     <div class="viewer-tabs" id="viewerTabs" role="tablist" hidden>
       <button type="button" role="tab" data-tab="pdf" aria-selected="true">Конспект</button>
+      <button type="button" role="tab" data-tab="video" aria-selected="false">Відео</button>
       <button type="button" role="tab" data-tab="photos" aria-selected="false">Фото</button>
     </div>
     <iframe id="viewerFrame" title="PDF-документ" src="about:blank"></iframe>
+    <video id="viewerVideo" controls playsinline preload="metadata" hidden></video>
     <div class="viewer-photos" id="viewerPhotos" hidden></div>
   </div>
 </div>
@@ -584,25 +515,6 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
 <footer>© 2026 Алла Петльована. Портфоліо досягнень вчителя англійської мови.</footer>
 
 <script>
-  const data = [
-    { year: '2021/22', value: 52 },
-    { year: '2022/23', value: 58 },
-    { year: '2023/24', value: 63 },
-    { year: '2024/25', value: 71 },
-    { year: '2025/26', value: 76 }
-  ];
-  const bars = document.getElementById('bars');
-  const labels = document.getElementById('barLabels');
-  data.forEach(d => {
-    bars.insertAdjacentHTML('beforeend', `<div class="bar-col"><span>${d.value}%</span><i style="height:0" data-h="${d.value}"></i></div>`);
-    labels.insertAdjacentHTML('beforeend', `<span>${d.year}</span>`);
-  });
-  const grow = () => bars.querySelectorAll('i').forEach(i => i.style.height = (i.dataset.h * 2.4) + 'px');
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(e => { if (e[0].isIntersecting) { grow(); io.disconnect(); } }, { threshold: .3 });
-    io.observe(bars);
-  } else grow();
-
   const btns = document.querySelectorAll('#filters button');
   btns.forEach(b => b.addEventListener('click', () => {
     btns.forEach(x => x.setAttribute('aria-pressed', x === b));
@@ -638,7 +550,9 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   const vClose = document.getElementById('viewerClose');
   const vTabs = document.getElementById('viewerTabs');
   const vPhotos = document.getElementById('viewerPhotos');
+  const vVideo = document.getElementById('viewerVideo');
   const tabPdf = vTabs.querySelector('[data-tab="pdf"]');
+  const tabVideo = vTabs.querySelector('[data-tab="video"]');
   const tabPhotos = vTabs.querySelector('[data-tab="photos"]');
   const lb = document.getElementById('lightbox');
   const lbImg = document.getElementById('lbImg');
@@ -648,12 +562,26 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   const lbClose = document.getElementById('lbClose');
   let lastBtn = null, lbList = [], lbIndex = 0, lbOpener = null, lbTitle = '';
 
-  // Фото уроків: список беремо з data-photos, лишаємо тільки файли, які реально існують
-  const lessonPhotos = new WeakMap();
+  // Перевірка, чи існує картинка
   const checkImg = src => new Promise(res => { const i = new Image(); i.onload = () => res(src); i.onerror = () => res(null); i.src = src; });
-  document.querySelectorAll('.lesson[data-photos]').forEach(async btn => {
-    const list = btn.dataset.photos.split(',').map(s => s.trim()).filter(Boolean);
-    const ok = (await Promise.all(list.map(checkImg))).filter(Boolean);
+  // Шукає в папці файли 1, 2, 3... (jpg, jpeg, png, webp). Зупиняється на першому пропущеному номері.
+  const EXTS = ['jpg', 'jpeg', 'png', 'webp', 'JPG', 'JPEG', 'PNG'];
+  const probeOne = async (folder, n) => { for (const e of EXTS) { const r = await checkImg(folder + '/' + n + '.' + e); if (r) return r; } return null; };
+  const probeFolder = async (folder, max = 60) => {
+    const out = [];
+    for (let s = 1; s <= max; s += 8) {
+      const batch = await Promise.all(Array.from({ length: 8 }, (_, k) => probeOne(folder, s + k)));
+      for (const r of batch) { if (!r) return out; out.push(r); }
+    }
+    return out;
+  };
+
+  // Фото уроків і альбомів: або data-photos (список), або data-folder (папка з 1.jpg, 2.jpg...)
+  const lessonPhotos = new WeakMap();
+  document.querySelectorAll('.lesson[data-photos], .lesson[data-folder]').forEach(async btn => {
+    const ok = btn.dataset.folder
+      ? await probeFolder(btn.dataset.folder)
+      : (await Promise.all(btn.dataset.photos.split(',').map(s => s.trim()).filter(Boolean).map(checkImg))).filter(Boolean);
     if (!ok.length) return;
     lessonPhotos.set(btn, ok);
     const t = document.createElement('span');
@@ -692,19 +620,25 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   const stepLb = d => { lbIndex = (lbIndex + d + lbList.length) % lbList.length; showLb(); };
 
   const showTab = name => {
-    const photos = name === 'photos';
-    frame.hidden = photos;
-    vPhotos.hidden = !photos;
-    tabPdf.setAttribute('aria-selected', String(!photos));
-    tabPhotos.setAttribute('aria-selected', String(photos));
+    frame.hidden = name !== 'pdf';
+    vPhotos.hidden = name !== 'photos';
+    vVideo.hidden = name !== 'video';
+    if (name !== 'video') vVideo.pause();
+    tabPdf.setAttribute('aria-selected', String(name === 'pdf'));
+    tabVideo.setAttribute('aria-selected', String(name === 'video'));
+    tabPhotos.setAttribute('aria-selected', String(name === 'photos'));
   };
   tabPdf.addEventListener('click', () => showTab('pdf'));
+  tabVideo.addEventListener('click', () => showTab('video'));
   tabPhotos.addEventListener('click', () => showTab('photos'));
 
+  // Картка може мати будь-яку комбінацію: data-pdf, data-video, фото (data-photos / data-folder)
   const openViewer = (btn, tab) => {
     lastBtn = btn;
     const title = btn.querySelector('b').textContent;
     const photos = lessonPhotos.get(btn) || [];
+    const pdf = btn.dataset.pdf;
+    const video = btn.dataset.video;
     vTitle.textContent = title;
     vPhotos.innerHTML = '';
     photos.forEach((src, i) => {
@@ -717,10 +651,24 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       b.addEventListener('click', () => openLightbox(photos, i, b, title));
       vPhotos.appendChild(b);
     });
-    vTabs.hidden = !photos.length;
+    const avail = [];
+    if (pdf) avail.push('pdf');
+    if (video) avail.push('video');
+    if (photos.length) avail.push('photos');
+    if (!avail.length) {
+      const e = document.createElement('p');
+      e.textContent = 'Матеріали скоро з’являться.';
+      e.style.cssText = 'grid-column:1/-1;color:var(--muted);margin:0';
+      vPhotos.appendChild(e);
+    }
+    tabPdf.hidden = !pdf;
+    tabVideo.hidden = !video;
+    tabPhotos.hidden = !photos.length;
     tabPhotos.textContent = 'Фото (' + photos.length + ')';
-    frame.src = btn.dataset.pdf + '#view=FitH';
-    showTab(tab === 'photos' && photos.length ? 'photos' : 'pdf');
+    vTabs.hidden = avail.length < 2;
+    frame.src = pdf ? pdf + '#view=FitH' : 'about:blank';
+    if (video) vVideo.src = video; else vVideo.removeAttribute('src');
+    showTab(avail.includes(tab) ? tab : (avail[0] || 'photos'));
     viewer.hidden = false;
     document.body.style.overflow = 'hidden';
     vClose.focus();
@@ -728,6 +676,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   const closeViewer = () => {
     viewer.hidden = true;
     frame.src = 'about:blank';
+    vVideo.pause(); vVideo.removeAttribute('src'); vVideo.load(); vVideo.hidden = true;
     vPhotos.innerHTML = '';
     document.body.style.overflow = '';
     if (lastBtn) lastBtn.focus();
@@ -748,6 +697,52 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       return;
     }
     if (e.key === 'Escape' && !viewer.hidden) closeViewer();
+  });
+
+  // ===== Сертифікати, дипломи, грамоти, подяки: беруться з папок =====
+  // Папка → тип документа. Кладіть файли 1.jpg, 2.jpg, 3.jpg... (без пропусків у нумерації).
+  const DOC_FOLDERS = [
+    { type: 'Диплом',     folder: 'diplomas' },
+    { type: 'Сертифікат', folder: 'certificates' },
+    { type: 'Грамота',    folder: 'awards' },
+    { type: 'Подяка',     folder: 'thanks' }
+  ];
+  // Необов'язково: свої назви. Ключ — "папка/номер". Значення — 'Назва' або ['Назва', 'Організація, рік'].
+  const DOC_TITLES = {
+    // 'certificates/1': ['Сертифікат про підвищення кваліфікації', 'Назва організації, 2024'],
+    // 'diplomas/1': 'Диплом магістра',
+  };
+  Promise.all(DOC_FOLDERS.map(d => probeFolder(d.folder))).then(results => {
+    const grid = document.getElementById('docGrid');
+    results.forEach((list, k) => {
+      if (!list.length) return;
+      const { type, folder } = DOC_FOLDERS[k];
+      grid.querySelectorAll('.doc[data-placeholder][data-t="' + type + '"]').forEach(el => el.remove());
+      list.forEach((src, i) => {
+        const info = DOC_TITLES[folder + '/' + (i + 1)];
+        const title = Array.isArray(info) ? info[0] : (info || type + ' №' + (i + 1));
+        const sub = Array.isArray(info) ? info[1] : '';
+        const art = document.createElement('article');
+        art.className = 'doc real';
+        art.dataset.t = type;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'img';
+        btn.setAttribute('aria-label', 'Збільшити: ' + title);
+        const im = document.createElement('img');
+        im.src = src; im.alt = title; im.loading = 'lazy';
+        btn.appendChild(im);
+        btn.addEventListener('click', () => openLightbox(list, i, btn, type));
+        const b = document.createElement('div');
+        b.className = 'b';
+        b.innerHTML = '<div class="t"></div><h3></h3>' + (sub ? '<p></p>' : '');
+        b.querySelector('.t').textContent = type;
+        b.querySelector('h3').textContent = title;
+        if (sub) b.querySelector('p').textContent = sub;
+        art.append(btn, b);
+        grid.appendChild(art);
+      });
+    });
   });
 </script>
 </body>
