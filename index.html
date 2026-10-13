@@ -465,7 +465,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
           <span class="go">Переглянути</span>
         </button>
 
-        <button type="button" class="lesson" data-pdf="lessons/method-lesson-6.pdf" data-photos="photos/euday/1.jpg, photos/euday/2.jpg, photos/euday/3.jpg, photos/euday/4.jpg, photos/euday/5.jpg" data-videos="videos/lesson-2.mp4, videos/lesson-3.mp4">
+        <button type="button" class="lesson" data-pdf="lessons/method-lesson-6.pdf" data-photos="photos/euday/1.jpg, photos/euday/2.jpg, photos/euday/3.jpg, photos/euday/4.jpg, photos/euday/5.jpg" data-videos="videos/lesson-2.mp4, videos/lesson-3.MOV">
           <div class="lesson-top">
             <span class="pdf">PDF</span>
             <span class="info"><b>Europe Day Lesson</b></span>
@@ -818,6 +818,8 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
     'certificates/5': ['Сертифікат успішного проходження навчання', 'НаУрок, 2026'],
     'certificates/6': ['EF SET Certificate', 'EfSet, 2026'],
     'certificates/8': ['Сертифікат "Основи психопідтримки"', 'EdEra, 2026'],
+    'certificates/9': ['Сертифікат підвищення кваліфікації "Цифровий учитель"', 'EdEra, 2026'],
+    'certificates/10': ['Сертифікат успішного опанування модуля', 'Університет Бориса Грінченка, 2024']
   };
   Promise.all(DOC_FOLDERS.map(d => probeFolder(d.folder))).then(results => {
     const grid = document.getElementById('docGrid');
