@@ -167,6 +167,8 @@ nav a.active{background:var(--sun);color:var(--navy)}
 .lightbox img{max-width:min(92vw,1400px);max-height:82vh;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,.5)}
 .lightbox video{width:min(92vw,1400px);max-height:82vh;background:#000;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,.5)}
 .lightbox video[hidden]{display:none}
+.lightbox iframe{width:min(92vw,1400px);height:88vh;border:0;background:var(--white);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lightbox iframe[hidden]{display:none}
 .lightbox :focus-visible{outline-color:var(--white)}
 .lb-btn{position:absolute;display:flex;align-items:center;justify-content:center;width:52px;height:52px;border:0;border-radius:50%;background:var(--sun);color:var(--navy);cursor:pointer;transition:background .2s ease}
 .lb-btn:hover{background:var(--white)}
@@ -200,6 +202,9 @@ nav a.active{background:var(--sun);color:var(--navy)}
 .doc.real .img{width:100%;border:0;border-bottom:2px solid var(--ink);background:var(--white);cursor:zoom-in;font:inherit;padding:0}
 .doc.real .img img{inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);object-fit:contain;box-shadow:0 4px 16px rgba(14,19,48,.22);background:var(--white)}
 .doc.real .img::after{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--sun)}
+.doc.real .pdf-thumb{position:relative;aspect-ratio:4/3;overflow:hidden;border-bottom:2px solid var(--ink);background:var(--white)}
+.doc.real .pdf-thumb iframe{position:absolute;inset:0;width:calc(100% + 18px);height:100%;border:0;background:var(--white);pointer-events:none}
+.doc.real .pdf-thumb button{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;cursor:zoom-in}
 footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-align:center;font-size:15px;border-top:6px solid var(--sun)}
 @media print{header,.filters,.viewer{display:none}#top{clip-path:none;padding:40px 0}section{break-inside:avoid;padding:28px 0}}
 
@@ -327,7 +332,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       </div>
       <div class="photo">
         Фото вчителя
-        <img src="photo_2026-10-05_11-17-23.jpg" alt="Алла Петльована">
+        <img src="photos\photo_2026-10-05_11-17-23.jpg" alt="Алла Петльована">
       </div>
     </div>
   </div>
@@ -353,17 +358,6 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
         <div><b>років на посаді вчителя англійської мови</b><span>Ліцей №167</span></div>
       </div>
 
-      <h3 class="sub">Атестація</h3>
-      <div class="rows edu" style="margin-bottom:56px">
-        <div class="row">
-          <span class="y">2022</span>
-          <div>
-            <b>Присвоєно II кваліфікаційну категорію</b>
-            <small>Педагогічне звання: Вчитель</small>
-          </div>
-        </div>
-      </div>
-
       <h3 class="sub">Освіта</h3>
       <div class="rows edu" style="margin-bottom:56px">
         <div class="row">
@@ -378,6 +372,17 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
           <div>
             <b>Київський університет імені Бориса Грінченка</b>
             <small>Спеціальність: Початкова освіта<br>Диплом Магістра М19 №177865</small>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="sub">Атестація</h3>
+      <div class="rows edu" style="margin-bottom:56px">
+        <div class="row">
+          <span class="y">2022</span>
+          <div>
+            <b>Присвоєно II кваліфікаційну категорію</b>
+            <small>Педагогічне звання: Вчитель</small>
           </div>
         </div>
       </div>
@@ -420,7 +425,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       </div>
 
       <div class="lessons">
-        <button type="button" class="lesson" data-pdf="method-lesson-1.pdf" data-photos="photos/wednesday/1.jpg, photos/wednesday/2.jpg, photos/wednesday/3.jpg, photos/wednesday/4.jpg, photos/wednesday/5.jpg">
+        <button type="button" class="lesson" data-pdf="lessons/method-lesson-1.pdf" data-photos="photos/wednesday/1.jpg, photos/wednesday/2.jpg, photos/wednesday/3.jpg, photos/wednesday/4.jpg, photos/wednesday/5.jpg">
           <div class="lesson-top">
             <span class="pdf">PDF</span>
             <span class="info"><b>Wednesday Lesson</b></span>
@@ -428,7 +433,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
           <span class="go">Переглянути</span>
         </button>
 
-        <button type="button" class="lesson" data-pdf="method-lesson-2.pdf" data-photos="photos/st-patricks-day/1.jpg, photos/st-patricks-day/2.jpg, photos/st-patricks-day/3.jpg, photos/st-patricks-day/4.jpg, photos/st-patricks-day/5.jpg">
+        <button type="button" class="lesson" data-pdf="lessons/method-lesson-2.pdf" data-photos="photos/st-patricks-day/1.jpg, photos/st-patricks-day/2.jpg, photos/st-patricks-day/3.jpg, photos/st-patricks-day/4.jpg, photos/st-patricks-day/5.jpg">
           <div class="lesson-top">
             <span class="pdf">PDF</span>
             <span class="info"><b>St. Patrick's Day Lesson</b></span>
@@ -436,7 +441,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
           <span class="go">Переглянути</span>
         </button>
 
-        <button type="button" class="lesson" data-pdf="method-lesson-3.pdf" data-photos="photos/health-and-wellbeing/1.jpg, photos/health-and-wellbeing/2.jpg, photos/st-patricks-day/3.jpg, photos/health-and-wellbeing/4.jpg, photos/health-and-wellbeing/5.jpg">
+        <button type="button" class="lesson" data-pdf="lessons/method-lesson-3.pdf" data-photos="photos/health-and-wellbeing/1.jpg, photos/health-and-wellbeing/2.jpg, photos/st-patricks-day/3.jpg, photos/health-and-wellbeing/4.jpg, photos/health-and-wellbeing/5.jpg">
           <div class="lesson-top">
             <span class="pdf">PDF</span>
             <span class="info"><b>Health and Wellbeing Lesson</b></span>
@@ -444,7 +449,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
           <span class="go">Переглянути</span>
         </button>
 
-        <button type="button" class="lesson" data-pdf="method-lesson-4.pdf" data-photos="photos/dot-day/1.jpg, photos/dot-day/2.jpg, photos/dot-day/3.jpg, photos/dot-day/4.jpg, photos/dot-day/5.jpg" data-video="videos/lesson-1.mp4">
+        <button type="button" class="lesson" data-pdf="lessons/method-lesson-4.pdf" data-photos="photos/dot-day/1.jpg, photos/dot-day/2.jpg, photos/dot-day/3.jpg, photos/dot-day/4.jpg, photos/dot-day/5.jpg" data-video="videos/lesson-1.mp4">
           <div class="lesson-top">
             <span class="pdf">PDF</span>
             <span class="info"><b>International Dot Day Lesson</b></span>
@@ -452,7 +457,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
           <span class="go">Переглянути</span>
         </button>
 
-        <button type="button" class="lesson" data-pdf="method-lesson-5.pdf" data-photos="photos/dot-day/1.jpg, photos/dot-day/2.jpg, photos/dot-day/3.jpg, photos/dot-day/4.jpg, photos/dot-day/5.jpg">
+        <button type="button" class="lesson" data-pdf="lessons/method-lesson-5.pdf" data-photos="photos/dot-day/1.jpg, photos/dot-day/2.jpg, photos/dot-day/3.jpg, photos/dot-day/4.jpg, photos/dot-day/5.jpg">
           <div class="lesson-top">
             <span class="pdf">PDF</span>
             <span class="info"><b>Helloween Traditions Lesson</b></span>
@@ -460,7 +465,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
           <span class="go">Переглянути</span>
         </button>
 
-        <button type="button" class="lesson" data-pdf="method-lesson-6.pdf" data-photos="photos/euday/1.jpg, photos/euday/2.jpg, photos/euday/3.jpg, photos/euday/4.jpg, photos/euday/5.jpg" data-videos="videos/lesson-2.mp4, videos/lesson-3.mp4">
+        <button type="button" class="lesson" data-pdf="lessons/method-lesson-6.pdf" data-photos="photos/euday/1.jpg, photos/euday/2.jpg, photos/euday/3.jpg, photos/euday/4.jpg, photos/euday/5.jpg" data-videos="videos/lesson-2.mp4, videos/lesson-3.mp4">
           <div class="lesson-top">
             <span class="pdf">PDF</span>
             <span class="info"><b>Europe Day Lesson</b></span>
@@ -484,14 +489,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
         <button aria-pressed="false" data-f="Грамота">Грамоти</button>
         <button aria-pressed="false" data-f="Подяка">Подяки</button>
       </div>
-      <p class="docs-help">Фото сертифікатів додавайте до папки <code>certificates/</code> з назвами <code>1.jpg</code>, <code>2.jpg</code> тощо. Фото документів відкриваються на весь екран; підтримуються JPG, PNG і WebP.</p>
       <div class="docs" id="docGrid">
-        <article class="doc" data-placeholder data-t="Диплом"><div class="img">Фото документа</div><div class="b"><div class="t">Диплом</div><h3>[Диплом про вищу освіту]</h3><p>[Заклад], [рік]</p></div></article>
-        <article class="doc" data-placeholder data-t="Сертифікат"><div class="img">Фото документа</div><div class="b"><div class="t">Сертифікат</div><h3>[Сертифікат про підвищення кваліфікації]</h3><p>[Організація], [рік]</p></div></article>
-        <article class="doc" data-placeholder data-t="Сертифікат"><div class="img">Фото документа</div><div class="b"><div class="t">Сертифікат</div><h3>[Міжнародний сертифікат, напр. TKT / CELTA]</h3><p>[Організація], [рік]</p></div></article>
-        <article class="doc" data-placeholder data-t="Грамота"><div class="img">Фото документа</div><div class="b"><div class="t">Грамота</div><h3>[Почесна грамота]</h3><p>[Хто нагородив], [рік]</p></div></article>
-        <article class="doc" data-placeholder data-t="Подяка"><div class="img">Фото документа</div><div class="b"><div class="t">Подяка</div><h3>[Подяка за підготовку призерів]</h3><p>[Організація], [рік]</p></div></article>
-        <article class="doc" data-placeholder data-t="Подяка"><div class="img">Фото документа</div><div class="b"><div class="t">Подяка</div><h3>[Лист-подяка від батьків]</h3><p>[Клас], [рік]</p></div></article>
       </div>
     </div>
   </div>
@@ -524,6 +522,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   <button type="button" class="lb-btn lb-prev" id="lbPrev" aria-label="Попередній матеріал"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
   <img id="lbImg" alt="">
   <video id="lbVideo" controls playsinline preload="metadata" hidden></video>
+  <iframe id="lbFrame" title="PDF-документ" hidden></iframe>
   <button type="button" class="lb-btn lb-next" id="lbNext" aria-label="Наступний матеріал"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="lb-count" id="lbCount" aria-live="polite"></div>
 </div>
@@ -573,6 +572,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   const lb = document.getElementById('lightbox');
   const lbImg = document.getElementById('lbImg');
   const lbVideo = document.getElementById('lbVideo');
+  const lbFrame = document.getElementById('lbFrame');
   const lbCount = document.getElementById('lbCount');
   const lbPrev = document.getElementById('lbPrev');
   const lbNext = document.getElementById('lbNext');
@@ -644,15 +644,28 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   });
 
   const showLb = () => {
-    if (lbType === 'video') {
+    if (lbType === 'pdf') {
+      lbImg.hidden = true;
+      lbVideo.pause();
+      lbVideo.removeAttribute('src');
+      lbVideo.load();
+      lbVideo.hidden = true;
+      lbFrame.hidden = false;
+      lbFrame.src = lbList[lbIndex] + '#view=FitH';
+    } else if (lbType === 'video') {
+      lbFrame.hidden = true;
+      lbFrame.src = 'about:blank';
       lbImg.hidden = true;
       lbVideo.hidden = false;
       lbVideo.src = lbList[lbIndex];
       lbVideo.load();
     } else {
+      lbFrame.hidden = true;
+      lbFrame.src = 'about:blank';
       lbVideo.pause();
       lbVideo.removeAttribute('src');
       lbVideo.load();
+      lbFrame.hidden = true;
       lbVideo.hidden = true;
       lbImg.hidden = false;
       lbImg.src = lbList[lbIndex];
@@ -674,6 +687,8 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
     lbVideo.pause();
     lbVideo.removeAttribute('src');
     lbVideo.load();
+    lbFrame.src = 'about:blank';
+    lbFrame.hidden = true;
     if (lbOpener) lbOpener.focus();
   };
   const stepLb = d => {
@@ -787,49 +802,79 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
     if (e.key === 'Escape' && !viewer.hidden) closeViewer();
   });
 
-  // ===== Сертифікати, дипломи, грамоти, подяки: беруться з папок =====
-  // Папка → тип документа. Кладіть файли 1.jpg, 2.jpg, 3.jpg... (без пропусків у нумерації).
   const DOC_FOLDERS = [
-    { type: 'Диплом',     folder: 'diplomas' },
-    { type: 'Сертифікат', folder: 'certificates' },
+    { type: 'Диплом',     folder: 'diplomas', pdfFiles: ['1.pdf', '2.pdf'] },
+    { type: 'Сертифікат', folder: 'certificates', pdfFiles: ['1.pdf', '2.pdf', '3.pdf', '5.pdf', '6.pdf', '8.pdf', '9.pdf', '10.pdf'] },
     { type: 'Грамота',    folder: 'awards' },
     { type: 'Подяка',     folder: 'thanks' }
   ];
   // Необов'язково: свої назви. Ключ — "папка/номер". Значення — 'Назва' або ['Назва', 'Організація, рік'].
   const DOC_TITLES = {
-    // 'certificates/1': ['Сертифікат про підвищення кваліфікації', 'Назва організації, 2024'],
-    // 'diplomas/1': 'Диплом магістра',
+    'diplomas/1': ['Диплом бакалавра', 'Київський коледж, 1999'],
+    'diplomas/2': ['Диплом магістра', 'Київський університет імені Бориса Грінченка, 2019'],
+    'certificates/1': ['Сертифікат підвищення кваліфікації', 'EdEra, 2025'],
+    'certificates/2': ['Сертифікат успішного проходження навчання', 'EdEra, 2025'],
+    'certificates/3': ['Сертифікат успішного проходження навчання', 'EdEra, 2025'],
+    'certificates/5': ['Сертифікат успішного проходження навчання', 'НаУрок, 2026'],
+    'certificates/6': ['EF SET Certificate', 'EfSet, 2026'],
+    'certificates/8': ['Сертифікат "Основи психопідтримки"', 'EdEra, 2026'],
   };
   Promise.all(DOC_FOLDERS.map(d => probeFolder(d.folder))).then(results => {
     const grid = document.getElementById('docGrid');
     results.forEach((list, k) => {
-      if (!list.length) return;
-      const { type, folder } = DOC_FOLDERS[k];
+      const { type, folder, pdfFiles = [] } = DOC_FOLDERS[k];
+      const pdfs = pdfFiles.map(file => ({
+        src: folder + '/' + file,
+        number: parseInt(file, 10)
+      }));
+      if (!list.length && !pdfs.length) return;
       grid.querySelectorAll('.doc[data-placeholder][data-t="' + type + '"]').forEach(el => el.remove());
-      list.forEach((src, i) => {
-        const info = DOC_TITLES[folder + '/' + (i + 1)];
-        const title = Array.isArray(info) ? info[0] : (info || type + ' №' + (i + 1));
+      const addDocument = (src, number, format, allPdfs = [], pdfIndex = number - 1) => {
+        const info = DOC_TITLES[folder + '/' + number];
+        const title = Array.isArray(info) ? info[0] : (info || type + ' №' + number);
         const sub = Array.isArray(info) ? info[1] : '';
         const art = document.createElement('article');
         art.className = 'doc real';
         art.dataset.t = type;
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'img';
-        btn.setAttribute('aria-label', 'Збільшити: ' + title);
-        const im = document.createElement('img');
-        im.src = src; im.alt = title; im.loading = 'lazy';
-        btn.appendChild(im);
-        btn.addEventListener('click', () => openLightbox(list, i, btn, type));
+        let preview;
+        if (format === 'pdf') {
+          preview = document.createElement('div');
+          preview.className = 'pdf-thumb';
+          const pdfFrame = document.createElement('iframe');
+          pdfFrame.src = src + '#page=1&toolbar=0&navpanes=0';
+          pdfFrame.title = title + ' — попередній перегляд PDF';
+          pdfFrame.loading = 'lazy';
+          const openButton = document.createElement('button');
+          openButton.type = 'button';
+          openButton.setAttribute('aria-label', 'Переглянути PDF: ' + title);
+          openButton.addEventListener('click', () => openLightbox(allPdfs, pdfIndex, openButton, type, 'pdf'));
+          preview.append(pdfFrame, openButton);
+        } else {
+          preview = document.createElement('button');
+          preview.type = 'button';
+          preview.className = 'img';
+          preview.setAttribute('aria-label', 'Збільшити: ' + title);
+          const im = document.createElement('img');
+          im.src = src; im.alt = title; im.loading = 'lazy';
+          preview.appendChild(im);
+          preview.addEventListener('click', () => openLightbox(list, number - 1, preview, type));
+        }
         const b = document.createElement('div');
         b.className = 'b';
         b.innerHTML = '<div class="t"></div><h3></h3>' + (sub ? '<p></p>' : '');
         b.querySelector('.t').textContent = type;
         b.querySelector('h3').textContent = title;
         if (sub) b.querySelector('p').textContent = sub;
-        art.append(btn, b);
+        art.append(preview, b);
         grid.appendChild(art);
-      });
+      };
+      list.forEach((src, i) => addDocument(src, i + 1, 'image'));
+      pdfs.forEach(({ src, number }, i) => addDocument(src, number, 'pdf', pdfs.map(pdf => pdf.src), i));
+    });
+    document.querySelectorAll('#filters button[data-f]').forEach(button => {
+      if (button.dataset.f !== 'all') {
+        button.hidden = !grid.querySelector('.doc[data-t="' + button.dataset.f + '"]');
+      }
     });
   });
 </script>
