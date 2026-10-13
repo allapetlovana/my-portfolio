@@ -78,9 +78,13 @@ nav a.active{background:var(--sun);color:var(--navy)}
 
 #general{background:var(--paper);padding-top:70px}
 #method{background:var(--white)}
-#results{background:var(--navy);color:var(--white)}
-#extra{background:var(--paper)}
-#courses{background:var(--white)}
+#results{position:relative;z-index:1;background:var(--navy);color:var(--white);padding-bottom:190px;clip-path:polygon(0 0,100% 0,100% 100%,0 calc(100% - 80px))}
+
+#courses{background:var(--white);margin-top:-80px;padding-top:190px}
+@media(max-width:860px){
+  #results{padding-bottom:130px;clip-path:polygon(0 0,100% 0,100% 100%,0 calc(100% - 40px))}
+  #courses{margin-top:-40px;padding-top:120px}
+}
 #docs{background:var(--paper)}
 
 /* рядки (освіта, позакласна, курси) */
@@ -210,7 +214,7 @@ tbody tr:hover td{background:#EEF1FF}
 .doc p{margin:0;color:var(--muted);font-size:15px}
 
 footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-align:center;font-size:15px;border-top:6px solid var(--sun)}
-@media print{header,.filters,.viewer{display:none}#top{clip-path:none;padding:40px 0}section{break-inside:avoid;padding:28px 0}}
+@media print{header,.filters,.viewer{display:none}#top,#results{clip-path:none;padding:40px 0}#courses{margin-top:0;padding-top:28px}section{break-inside:avoid;padding:28px 0}}
 </style>
 </head>
 <body>
@@ -221,7 +225,6 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
     <a href="#general">Відомості</a>
     <a href="#method">Методична робота</a>
     <a href="#results">Результати</a>
-    <a href="#extra">Позакласна</a>
     <a href="#courses">Курси</a>
     <a href="#docs">Документи</a>
   </nav>
@@ -404,22 +407,9 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   </div>
 </section>
 
-<section id="extra">
-  <div class="wrap split">
-    <div class="head"><span class="n">4</span><h2>Позакласна діяльність</h2></div>
-    <div class="body">
-      <div class="rows">
-        <div class="row"><span class="y">[рік]</span><div><b>[Гурток англійської мови]</b><small>[Кількість учасників, результат]</small></div><span class="tag">Гурток</span></div>
-        <div class="row"><span class="y">[рік]</span><div><b>[Предметний тиждень англійської мови]</b><small>[Що проводили]</small></div><span class="tag">Захід</span></div>
-        <div class="row"><span class="y">[рік]</span><div><b>[Освітній проєкт]</b><small>[Партнери, підсумок]</small></div><span class="tag">Проєкт</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section id="courses">
   <div class="wrap split">
-    <div class="head"><span class="n">5</span><h2>Підвищення кваліфікації</h2></div>
+    <div class="head"><span class="n">4</span><h2>Підвищення кваліфікації</h2></div>
     <div class="body">
       <p class="lead">Курси, тренінги та вебінари за останні 5 років.</p>
       <div class="rows">
@@ -433,9 +423,9 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
 
 <section id="docs">
   <div class="wrap split">
-    <div class="head"><span class="n">6</span><h2>Офіційні документи</h2></div>
+    <div class="head"><span class="n">5</span><h2>Офіційні документи</h2></div>
     <div class="body">
-      <p class="lead">Дипломи, сертифікати, грамоти та подяки. Замініть підписи і додайте фото документів.</p>
+      <p class="lead">Дипломи, сертифікати, грамоти та подяки.</p>
       <div class="filters" id="filters">
         <button aria-pressed="true" data-f="all">Усі</button>
         <button aria-pressed="false" data-f="Диплом">Дипломи</button>
