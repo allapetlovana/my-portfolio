@@ -138,7 +138,7 @@ nav a.active{background:var(--sun);color:var(--navy)}
 @media(max-width:600px){.viewer{padding:0}.lessons{grid-template-columns:1fr}.topic{padding:30px 26px}}
 
 .thumbs{display:flex;gap:8px;width:100%}
-.thumbs .media-thumb-item{position:relative;flex:1;min-width:0;height:84px;overflow:hidden;border:2px solid var(--ink);background:#DDE2FF;cursor:pointer}
+.thumbs .media-thumb-item{position:relative;flex:1 1 0;max-width:96px;min-width:0;height:84px;overflow:hidden;border:2px solid var(--ink);background:#DDE2FF;cursor:pointer}
 .thumbs .media-thumb-item img,.thumbs .media-thumb-item video{display:block;width:100%;height:100%;object-fit:cover}
 .thumbs .media-thumb-item video{background:#070B2A}
 .thumbs .media-thumb-item .play-icon{position:absolute;left:50%;top:50%;width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:12px solid var(--white);filter:drop-shadow(0 1px 3px rgba(0,0,0,.8));transform:translate(-40%,-50%)}
@@ -359,7 +359,6 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
           <span class="y">2022</span>
           <div>
             <b>Присвоєно II кваліфікаційну категорію</b>
-            <small>Педагогічне звання: Вчитель</small>
           </div>
         </div>
       </div>
@@ -418,7 +417,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
           <span class="go">Переглянути</span>
         </button>
 
-        <button type="button" class="lesson" data-pdf="lessons/method-lesson-3.pdf" data-photos="photos/health-and-wellbeing/1.jpg, photos/health-and-wellbeing/2.jpg, photos/st-patricks-day/3.jpg, photos/health-and-wellbeing/4.jpg, photos/health-and-wellbeing/5.jpg">
+        <button type="button" class="lesson" data-pdf="lessons/method-lesson-3.pdf" data-photos="photos/health-and-wellbeing/1.jpg, photos/health-and-wellbeing/2.jpg, photos/health-and-wellbeing/3.jpg, photos/health-and-wellbeing/4.jpg, photos/health-and-wellbeing/5.jpg">
           <div class="lesson-top">
             <span class="pdf">PDF</span>
             <span class="info"><b>Health and Wellbeing Lesson</b></span>
@@ -434,18 +433,18 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
           <span class="go">Переглянути</span>
         </button>
 
-        <button type="button" class="lesson" data-pdf="lessons/method-lesson-5.pdf" data-photos="photos/dot-day/1.jpg, photos/dot-day/2.jpg, photos/dot-day/3.jpg, photos/dot-day/4.jpg, photos/dot-day/5.jpg">
+        <button type="button" class="lesson" data-pdf="lessons/method-lesson-6.pdf" data-photos="photos/euday/1.jpg, photos/euday/2.jpg, photos/euday/3.jpg, photos/euday/4.jpg, photos/euday/5.jpg" data-videos="videos/lesson-3.MOV, videos/lesson-4.mp4, videos/lesson-5.mp4">
           <div class="lesson-top">
             <span class="pdf">PDF</span>
-            <span class="info"><b>Helloween Traditions Lesson</b></span>
+            <span class="info"><b>Europe Day Lesson</b></span>
           </div>
           <span class="go">Переглянути</span>
         </button>
 
-        <button type="button" class="lesson" data-pdf="lessons/method-lesson-6.pdf" data-photos="photos/euday/1.jpg, photos/euday/2.jpg, photos/euday/3.jpg, photos/euday/4.jpg, photos/euday/5.jpg" data-videos="videos/lesson-2.mp4, videos/lesson-3.MOV">
+        <button type="button" class="lesson" data-pdf="lessons/method-lesson-7.pdf" data-photos="photos/earth-day/1.jpg, photos/earth-day/2.jpg, photos/earth-day/3.jpg, photos/earth-day/4.jpg, photos/earth-day/5.jpg" data-videos="videos/lesson-6.mp4">
           <div class="lesson-top">
             <span class="pdf">PDF</span>
-            <span class="info"><b>Europe Day Lesson</b></span>
+            <span class="info"><b>Earth Day Lesson</b></span>
           </div>
           <span class="go">Переглянути</span>
         </button>
@@ -484,9 +483,9 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       <span class="viewer-title" id="viewerTitle"></span>
     </div>
     <div class="viewer-tabs" id="viewerTabs" role="tablist" hidden>
-      <button type="button" role="tab" data-tab="pdf" aria-selected="true">Конспект</button>
+      <button type="button" role="tab" data-tab="photos" aria-selected="true">Фото</button>
       <button type="button" role="tab" data-tab="video" aria-selected="false">Відео</button>
-      <button type="button" role="tab" data-tab="photos" aria-selected="false">Фото</button>
+      <button type="button" role="tab" data-tab="pdf" aria-selected="false">Конспект</button>
     </div>
     <iframe id="viewerFrame" title="PDF-документ" src="about:blank"></iframe>
     <div class="viewer-video-list" id="viewerVideoList" aria-label="Відео уроку" hidden></div>
@@ -575,10 +574,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       : (await Promise.all((btn.dataset.photos || '').split(',').map(s => s.trim()).filter(Boolean).map(checkImg))).filter(Boolean);
     const videos = (btn.dataset.videos || btn.dataset.video || '').split(',').map(src => src.trim()).filter(Boolean);
     if (photos.length) lessonPhotos.set(btn, photos);
-    const media = [
-      ...photos.map((src, index) => ({ type: 'photo', src, index })),
-      ...videos.map((src, index) => ({ type: 'video', src, index }))
-    ];
+    const media = photos.map((src, index) => ({ type: 'photo', src, index }));
     if (!media.length) return;
     const t = document.createElement('span');
     t.className = 'thumbs';
@@ -725,9 +721,9 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       vVideoList.appendChild(b);
     });
     const avail = [];
-    if (pdf) avail.push('pdf');
-    if (videos.length) avail.push('video');
     if (photos.length) avail.push('photos');
+    if (videos.length) avail.push('video');
+    if (pdf) avail.push('pdf');
     if (!avail.length) {
       const e = document.createElement('p');
       e.textContent = 'Матеріали скоро з’являться.';
@@ -757,7 +753,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   document.querySelectorAll('.lesson').forEach(b => b.addEventListener('click', e => {
     const mediaItem = e.target.closest('.media-thumb-item');
     const type = mediaItem ? mediaItem.dataset.mediaType : (b.dataset.photos || b.dataset.folder ? 'photos' : 'video');
-    openViewer(b, type === 'video' ? 'video' : (type === 'photo' ? 'photos' : 'pdf'));
+    openViewer(b, type === 'video' ? 'video' : 'photos');
   }));
   lbClose.addEventListener('click', closeLightbox);
   lbPrev.addEventListener('click', () => stepLb(-1));
