@@ -135,13 +135,23 @@ nav a.active{background:var(--sun);color:var(--navy)}
 .viewer iframe{flex:1;width:100%;border:0;background:#e9e6dc}
 .viewer video{flex:1;min-height:0;width:100%;background:#000;object-fit:contain}
 .viewer video[hidden]{display:none}
+.viewer-video-list{flex:1;min-height:0;overflow-y:auto;padding:22px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;align-content:start;background:var(--paper)}
+.viewer-video-list[hidden]{display:none}
+.viewer-video-list button{min-width:0;padding:0;border:2px solid var(--ink);background:var(--white);cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
+.viewer-video-list button:hover{transform:translate(-4px,-4px);box-shadow:6px 6px 0 var(--sun)}
+.viewer-video-thumb{position:relative;display:block;aspect-ratio:4/3;overflow:hidden;background:var(--navy)}
+.viewer-video-thumb video{display:block;width:100%;height:100%;object-fit:cover}
+.viewer-video-thumb .play-icon{position:absolute;left:50%;top:50%;width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:12px solid var(--white);filter:drop-shadow(0 1px 3px rgba(0,0,0,.8));transform:translate(-40%,-50%)}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @keyframes pop{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
 @media(max-width:600px){.viewer{padding:0}.lessons{grid-template-columns:1fr}.topic{padding:30px 26px}.topic.alt{padding:22px 26px}}
 
 /* фото уроків */
 .thumbs{display:flex;gap:8px;width:100%}
-.thumbs img{flex:1;min-width:0;height:84px;object-fit:cover;border:2px solid var(--ink);background:#DDE2FF}
+.thumbs .media-thumb-item{position:relative;flex:1;min-width:0;height:84px;overflow:hidden;border:2px solid var(--ink);background:#DDE2FF;cursor:pointer}
+.thumbs .media-thumb-item img,.thumbs .media-thumb-item video{display:block;width:100%;height:100%;object-fit:cover}
+.thumbs .media-thumb-item video{background:#070B2A}
+.thumbs .media-thumb-item .play-icon{position:absolute;left:50%;top:50%;width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:12px solid var(--white);filter:drop-shadow(0 1px 3px rgba(0,0,0,.8));transform:translate(-40%,-50%)}
 .thumbs .more{flex:none;display:flex;align-items:center;justify-content:center;min-width:56px;padding:0 10px;font:700 14px var(--disp);background:var(--ink);color:var(--white)}
 .viewer-tabs{display:flex;gap:8px;padding:10px 18px;border-bottom:1px solid var(--line);background:var(--paper)}
 .viewer-tabs[hidden],.viewer-tabs button[hidden]{display:none}
@@ -155,6 +165,8 @@ nav a.active{background:var(--sun);color:var(--navy)}
 .lightbox{position:fixed;inset:0;z-index:110;display:flex;align-items:center;justify-content:center;background:rgba(7,11,42,.94);animation:fade .2s ease}
 .lightbox[hidden]{display:none}
 .lightbox img{max-width:min(92vw,1400px);max-height:82vh;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lightbox video{width:min(92vw,1400px);max-height:82vh;background:#000;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lightbox video[hidden]{display:none}
 .lightbox :focus-visible{outline-color:var(--white)}
 .lb-btn{position:absolute;display:flex;align-items:center;justify-content:center;width:52px;height:52px;border:0;border-radius:50%;background:var(--sun);color:var(--navy);cursor:pointer;transition:background .2s ease}
 .lb-btn:hover{background:var(--white)}
@@ -243,7 +255,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   .lesson .pdf{width:40px;height:48px;font-size:11px}
   .lesson .pdf.ph{font-size:8.5px}
   .lesson .go{padding:8px 16px}
-  .thumbs img{height:64px}
+  .thumbs .media-thumb-item{height:64px}
 
   /* рядки (освіта, атестація) */
   .row,.rows.edu .row{grid-template-columns:minmax(0,1fr);gap:6px;padding:20px 2px}
@@ -448,7 +460,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
           <span class="go">Переглянути</span>
         </button>
 
-        <button type="button" class="lesson" data-pdf="method-lesson-6.pdf" data-photos="photos/euday/1.jpg, photos/euday/2.jpg, photos/euday/3.jpg, photos/euday/4.jpg, photos/euday/5.jpg" data-video="videos/lesson-2.mp4, videos/lesson-3.mp4">
+        <button type="button" class="lesson" data-pdf="method-lesson-6.pdf" data-photos="photos/euday/1.jpg, photos/euday/2.jpg, photos/euday/3.jpg, photos/euday/4.jpg, photos/euday/5.jpg" data-videos="videos/lesson-2.mp4, videos/lesson-3.mp4">
           <div class="lesson-top">
             <span class="pdf">PDF</span>
             <span class="info"><b>Europe Day Lesson</b></span>
@@ -502,16 +514,17 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       <button type="button" role="tab" data-tab="photos" aria-selected="false">Фото</button>
     </div>
     <iframe id="viewerFrame" title="PDF-документ" src="about:blank"></iframe>
-    <video id="viewerVideo" controls playsinline preload="metadata" hidden></video>
+    <div class="viewer-video-list" id="viewerVideoList" aria-label="Відео уроку" hidden></div>
     <div class="viewer-photos" id="viewerPhotos" hidden></div>
   </div>
 </div>
 
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Перегляд фото" hidden>
-  <button type="button" class="lb-btn lb-close" id="lbClose" aria-label="Закрити фото"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
-  <button type="button" class="lb-btn lb-prev" id="lbPrev" aria-label="Попереднє фото"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Перегляд фото або відео" hidden>
+  <button type="button" class="lb-btn lb-close" id="lbClose" aria-label="Закрити перегляд"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+  <button type="button" class="lb-btn lb-prev" id="lbPrev" aria-label="Попередній матеріал"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
   <img id="lbImg" alt="">
-  <button type="button" class="lb-btn lb-next" id="lbNext" aria-label="Наступне фото"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  <video id="lbVideo" controls playsinline preload="metadata" hidden></video>
+  <button type="button" class="lb-btn lb-next" id="lbNext" aria-label="Наступний матеріал"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="lb-count" id="lbCount" aria-live="polite"></div>
 </div>
 
@@ -553,17 +566,18 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   const vClose = document.getElementById('viewerClose');
   const vTabs = document.getElementById('viewerTabs');
   const vPhotos = document.getElementById('viewerPhotos');
-  const vVideo = document.getElementById('viewerVideo');
+  const vVideoList = document.getElementById('viewerVideoList');
   const tabPdf = vTabs.querySelector('[data-tab="pdf"]');
   const tabVideo = vTabs.querySelector('[data-tab="video"]');
   const tabPhotos = vTabs.querySelector('[data-tab="photos"]');
   const lb = document.getElementById('lightbox');
   const lbImg = document.getElementById('lbImg');
+  const lbVideo = document.getElementById('lbVideo');
   const lbCount = document.getElementById('lbCount');
   const lbPrev = document.getElementById('lbPrev');
   const lbNext = document.getElementById('lbNext');
   const lbClose = document.getElementById('lbClose');
-  let lastBtn = null, lbList = [], lbIndex = 0, lbOpener = null, lbTitle = '';
+  let lastBtn = null, lbList = [], lbIndex = 0, lbOpener = null, lbTitle = '', lbType = 'photo';
 
   // Перевірка, чи існує картинка
   const checkImg = src => new Promise(res => { const i = new Image(); i.onload = () => res(src); i.onerror = () => res(null); i.src = src; });
@@ -579,38 +593,77 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
     return out;
   };
 
-  // Фото уроків і альбомів: або data-photos (список), або data-folder (папка з 1.jpg, 2.jpg...)
+  // Мініатюри фото та відео уроку відображаються однією смужкою, як фотогалерея.
   const lessonPhotos = new WeakMap();
-  document.querySelectorAll('.lesson[data-photos], .lesson[data-folder]').forEach(async btn => {
-    const ok = btn.dataset.folder
+  document.querySelectorAll('.lesson[data-photos], .lesson[data-folder], .lesson[data-videos], .lesson[data-video]').forEach(async btn => {
+    const photos = btn.dataset.folder
       ? await probeFolder(btn.dataset.folder)
-      : (await Promise.all(btn.dataset.photos.split(',').map(s => s.trim()).filter(Boolean).map(checkImg))).filter(Boolean);
-    if (!ok.length) return;
-    lessonPhotos.set(btn, ok);
+      : (await Promise.all((btn.dataset.photos || '').split(',').map(s => s.trim()).filter(Boolean).map(checkImg))).filter(Boolean);
+    const videos = (btn.dataset.videos || btn.dataset.video || '').split(',').map(src => src.trim()).filter(Boolean);
+    if (photos.length) lessonPhotos.set(btn, photos);
+    const media = [
+      ...photos.map((src, index) => ({ type: 'photo', src, index })),
+      ...videos.map((src, index) => ({ type: 'video', src, index }))
+    ];
+    if (!media.length) return;
     const t = document.createElement('span');
     t.className = 'thumbs';
-    ok.slice(0, 3).forEach(src => {
-      const im = document.createElement('img');
-      im.src = src; im.alt = ''; im.loading = 'lazy';
-      t.appendChild(im);
+    media.slice(0, 3).forEach(({ type, src, index }) => {
+      const item = document.createElement('span');
+      item.className = 'media-thumb-item';
+      item.dataset.mediaType = type;
+      item.dataset.mediaIndex = String(index);
+      if (type === 'photo') {
+        const image = document.createElement('img');
+        image.src = src; image.alt = ''; image.loading = 'lazy';
+        item.appendChild(image);
+      } else {
+        const preview = document.createElement('video');
+        preview.src = src;
+        preview.muted = true;
+        preview.playsInline = true;
+        preview.preload = 'metadata';
+        preview.setAttribute('aria-hidden', 'true');
+        preview.addEventListener('loadedmetadata', () => {
+          if (preview.duration > 0.1) preview.currentTime = 0.1;
+        }, { once: true });
+        const play = document.createElement('span');
+        play.className = 'play-icon';
+        play.setAttribute('aria-hidden', 'true');
+        item.append(preview, play);
+      }
+      t.appendChild(item);
     });
-    if (ok.length > 3) {
-      const m = document.createElement('span');
-      m.className = 'more';
-      m.textContent = '+' + (ok.length - 3);
-      t.appendChild(m);
+    if (media.length > 3) {
+      const more = document.createElement('span');
+      more.className = 'more';
+      more.textContent = '+' + (media.length - 3);
+      t.appendChild(more);
     }
     btn.insertBefore(t, btn.querySelector('.go'));
   });
 
   const showLb = () => {
-    lbImg.src = lbList[lbIndex];
-    lbImg.alt = lbTitle + ', фото ' + (lbIndex + 1);
+    if (lbType === 'video') {
+      lbImg.hidden = true;
+      lbVideo.hidden = false;
+      lbVideo.src = lbList[lbIndex];
+      lbVideo.load();
+    } else {
+      lbVideo.pause();
+      lbVideo.removeAttribute('src');
+      lbVideo.load();
+      lbVideo.hidden = true;
+      lbImg.hidden = false;
+      lbImg.src = lbList[lbIndex];
+      lbImg.alt = lbTitle + ', фото ' + (lbIndex + 1);
+    }
     lbCount.textContent = (lbIndex + 1) + ' / ' + lbList.length;
     lbPrev.hidden = lbNext.hidden = lbList.length < 2;
   };
-  const openLightbox = (list, i, opener, title) => {
+  const openLightbox = (list, i, opener, title, type = 'photo') => {
     lbList = list; lbIndex = i; lbOpener = opener; lbTitle = title;
+    lbType = type;
     showLb();
     lb.hidden = false;
     lbClose.focus();
@@ -618,15 +671,20 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   const closeLightbox = () => {
     lb.hidden = true;
     lbImg.removeAttribute('src');
+    lbVideo.pause();
+    lbVideo.removeAttribute('src');
+    lbVideo.load();
     if (lbOpener) lbOpener.focus();
   };
-  const stepLb = d => { lbIndex = (lbIndex + d + lbList.length) % lbList.length; showLb(); };
+  const stepLb = d => {
+    lbIndex = (lbIndex + d + lbList.length) % lbList.length;
+    showLb();
+  };
 
   const showTab = name => {
     frame.hidden = name !== 'pdf';
     vPhotos.hidden = name !== 'photos';
-    vVideo.hidden = name !== 'video';
-    if (name !== 'video') vVideo.pause();
+    vVideoList.hidden = name !== 'video';
     tabPdf.setAttribute('aria-selected', String(name === 'pdf'));
     tabVideo.setAttribute('aria-selected', String(name === 'video'));
     tabPhotos.setAttribute('aria-selected', String(name === 'photos'));
@@ -635,15 +693,16 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   tabVideo.addEventListener('click', () => showTab('video'));
   tabPhotos.addEventListener('click', () => showTab('photos'));
 
-  // Картка може мати будь-яку комбінацію: data-pdf, data-video, фото (data-photos / data-folder)
+  // Картка може мати будь-яку комбінацію: data-pdf, data-video(s), фото (data-photos / data-folder)
   const openViewer = (btn, tab) => {
     lastBtn = btn;
     const title = btn.querySelector('b').textContent;
     const photos = lessonPhotos.get(btn) || [];
     const pdf = btn.dataset.pdf;
-    const video = btn.dataset.video;
+    const videos = (btn.dataset.videos || btn.dataset.video || '').split(',').map(src => src.trim()).filter(Boolean);
     vTitle.textContent = title;
     vPhotos.innerHTML = '';
+    vVideoList.innerHTML = '';
     photos.forEach((src, i) => {
       const b = document.createElement('button');
       b.type = 'button';
@@ -654,9 +713,32 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       b.addEventListener('click', () => openLightbox(photos, i, b, title));
       vPhotos.appendChild(b);
     });
+    videos.forEach((src, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', 'Відтворити відео ' + (i + 1));
+      const thumb = document.createElement('span');
+      thumb.className = 'viewer-video-thumb';
+      const preview = document.createElement('video');
+      preview.src = src;
+      preview.muted = true;
+      preview.playsInline = true;
+      preview.preload = 'metadata';
+      preview.setAttribute('aria-hidden', 'true');
+      preview.addEventListener('loadedmetadata', () => {
+        if (preview.duration > 0.1) preview.currentTime = 0.1;
+      }, { once: true });
+      const icon = document.createElement('span');
+      icon.className = 'play-icon';
+      icon.setAttribute('aria-hidden', 'true');
+      thumb.append(preview, icon);
+      b.appendChild(thumb);
+      b.addEventListener('click', () => openLightbox(videos, i, b, title, 'video'));
+      vVideoList.appendChild(b);
+    });
     const avail = [];
     if (pdf) avail.push('pdf');
-    if (video) avail.push('video');
+    if (videos.length) avail.push('video');
     if (photos.length) avail.push('photos');
     if (!avail.length) {
       const e = document.createElement('p');
@@ -665,12 +747,12 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       vPhotos.appendChild(e);
     }
     tabPdf.hidden = !pdf;
-    tabVideo.hidden = !video;
+    tabVideo.hidden = !videos.length;
     tabPhotos.hidden = !photos.length;
+    tabVideo.textContent = 'Відео (' + videos.length + ')';
     tabPhotos.textContent = 'Фото (' + photos.length + ')';
     vTabs.hidden = avail.length < 2;
     frame.src = pdf ? pdf + '#view=FitH' : 'about:blank';
-    if (video) vVideo.src = video; else vVideo.removeAttribute('src');
     showTab(avail.includes(tab) ? tab : (avail[0] || 'photos'));
     viewer.hidden = false;
     document.body.style.overflow = 'hidden';
@@ -679,13 +761,16 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   const closeViewer = () => {
     viewer.hidden = true;
     frame.src = 'about:blank';
-    vVideo.pause(); vVideo.removeAttribute('src'); vVideo.load(); vVideo.hidden = true;
-    vPhotos.innerHTML = '';
+    vPhotos.innerHTML = ''; vVideoList.innerHTML = '';
     document.body.style.overflow = '';
     if (lastBtn) lastBtn.focus();
   };
 
-  document.querySelectorAll('.lesson').forEach(b => b.addEventListener('click', e => openViewer(b, e.target.closest('.thumbs') ? 'photos' : 'pdf')));
+  document.querySelectorAll('.lesson').forEach(b => b.addEventListener('click', e => {
+    const mediaItem = e.target.closest('.media-thumb-item');
+    const type = mediaItem ? mediaItem.dataset.mediaType : (b.dataset.photos || b.dataset.folder ? 'photos' : 'video');
+    openViewer(b, type === 'video' ? 'video' : (type === 'photo' ? 'photos' : 'pdf'));
+  }));
   lbClose.addEventListener('click', closeLightbox);
   lbPrev.addEventListener('click', () => stepLb(-1));
   lbNext.addEventListener('click', () => stepLb(1));
