@@ -61,11 +61,9 @@ nav a:hover,nav a.active{background:var(--dim);color:var(--ink)}
 .row:last-child{border:none}
 .row .y{font:600 18px 'Fraunces',serif;color:var(--red)}
 .row b{display:block}
-.row small{color:var(--soft);font-size:14.5px}
+.row small{color:var(--soft);font-size:14.5px;line-height:1.4;display:block;margin-top:4px}
 .row .tag{font-size:13px;font-weight:600;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:2px 11px;white-space:nowrap}
 @media(max-width:600px){.row{grid-template-columns:1fr;gap:2px}.row .tag{justify-self:start;margin-top:6px}}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-@media(max-width:820px){.two{grid-template-columns:1fr}}
 h3.sub{font-size:20px;margin:0 0 12px}
 
 .topic{background:var(--ink);color:var(--paper);padding:30px 34px;margin-bottom:30px}
@@ -182,23 +180,44 @@ footer{background:var(--ink);color:rgba(242,236,221,.7);padding:28px 24px;text-a
 <section id="general">
   <div class="wrap">
     <div class="head"><span class="n">1</span><h2>Загальні відомості про вчителя</h2></div>
-    <p class="lead">Освіта, наукові ступені та відзнаки. Кожен запис підтверджено копією документа в розділі «Документи».</p>
-    <div class="two">
-      <div>
-        <h3 class="sub">Освіта</h3>
-        <div class="rows">
-          <div class="row" style="grid-template-columns:90px 1fr"><span class="y">[рік]</span><div><b>[Назва університету]</b><small>Спеціальність: [філологія / англійська мова]. Диплом №[номер]</small></div></div>
-          <div class="row" style="grid-template-columns:90px 1fr"><span class="y">[рік]</span><div><b>[Додаткова освіта / магістратура]</b><small>[Ступінь, спеціальність]</small></div></div>
+    
+    <h3 class="sub">Освіта</h3>
+    <div class="rows" style="margin-bottom: 40px;">
+      <div class="row" style="grid-template-columns:130px 1fr; padding: 24px 30px;">
+        <span class="y" style="font-size: 24px;">1999 рік</span>
+        <div>
+          <b style="font-size: 19px; margin-bottom: 6px;">Київський коледж Головного управління освіти держадміністрації м. Києва при Київському університеті імені Тараса Шевченка</b>
+          <small style="font-size: 15.5px;">Спеціальність: Педагогіка<br>Диплом Бакалавра КВ№11008634</small>
         </div>
       </div>
-      <div>
-        <h3 class="sub">Нагороди та відзнаки</h3>
-        <div class="rows">
-          <div class="row" style="grid-template-columns:90px 1fr"><span class="y">[рік]</span><div><b>[Почесна грамота]</b><small>[Хто нагородив]</small></div></div>
-          <div class="row" style="grid-template-columns:90px 1fr"><span class="y">[рік]</span><div><b>[Подяка]</b><small>[Від кого]</small></div></div>
+      <div class="row" style="grid-template-columns:130px 1fr; padding: 24px 30px;">
+        <span class="y" style="font-size: 24px;">2019 рік</span>
+        <div>
+          <b style="font-size: 19px; margin-bottom: 6px;">Київський університет імені Бориса Грінченка</b>
+          <small style="font-size: 15.5px;">Спеціальність: Початкова освіта<br>Диплом Магістра М19 №177865</small>
         </div>
       </div>
     </div>
+
+    <!-- Новий розділ замість дублюючої "Освіти" -->
+    <h3 class="sub">Подяки та грамоти</h3>
+    <div class="rows">
+      <div class="row" style="grid-template-columns:130px 1fr; padding: 24px 30px;">
+        <span class="y" style="font-size: 24px;">[рік]</span>
+        <div>
+          <b style="font-size: 19px; margin-bottom: 6px;">[Назва подяки або грамоти]</b>
+          <small style="font-size: 15.5px;">[Ким видана]</small>
+        </div>
+      </div>
+      <div class="row" style="grid-template-columns:130px 1fr; padding: 24px 30px;">
+        <span class="y" style="font-size: 24px;">[рік]</span>
+        <div>
+          <b style="font-size: 19px; margin-bottom: 6px;">[Назва подяки або грамоти]</b>
+          <small style="font-size: 15.5px;">[Ким видана]</small>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -208,7 +227,6 @@ footer{background:var(--ink);color:rgba(242,236,221,.7);padding:28px 24px;text-a
     <div class="topic"><p>Методична тема, над якою працюю</p><h3>Формування лексичної компетентності учнів засобами CLIL на уроках англійскої мови</h3></div>
     <h3 class="sub">Конспекти та плани уроків</h3>
     <div class="lessons">
-      
       <button type="button" class="lesson" data-pdf="pdf/lesson-1.pdf">
         <div class="lesson-top">
           <span class="pdf">PDF</span>
@@ -216,7 +234,6 @@ footer{background:var(--ink);color:rgba(242,236,221,.7);padding:28px 24px;text-a
         </div>
         <span class="go">Переглянути</span>
       </button>
-      
       <button type="button" class="lesson" data-pdf="pdf/lesson-2.pdf">
         <div class="lesson-top">
           <span class="pdf">PDF</span>
@@ -224,7 +241,6 @@ footer{background:var(--ink);color:rgba(242,236,221,.7);padding:28px 24px;text-a
         </div>
         <span class="go">Переглянути</span>
       </button>
-      
       <button type="button" class="lesson" data-pdf="pdf/lesson-3.pdf">
         <div class="lesson-top">
           <span class="pdf">PDF</span>
@@ -235,21 +251,26 @@ footer{background:var(--ink);color:rgba(242,236,221,.7);padding:28px 24px;text-a
     </div>
 
     <div class="topic" style="margin-top: 40px;">
-      <h3>Тематичні уроки</h3>
+      <h3>Методичні уроки</h3>
     </div>
 
     <div class="lessons">
-      
       <button type="button" class="lesson" data-pdf="method-lesson-1.pdf">
         <div class="lesson-top">
           <span class="pdf">PDF</span>
-          <span class="info"><b>Урок Wednesday
-          </b></span>
+          <span class="info"><b>Wednesday Lesson</b></span>
+        </div>
+        <span class="go">Переглянути</span>
+      </button>
+    
+      <button type="button" class="lesson" data-pdf="method-lesson-2.pdf">
+        <div class="lesson-top">
+          <span class="pdf">PDF</span>
+          <span class="info"><b>St. Patrick's Day Lesson</b></span>
         </div>
         <span class="go">Переглянути</span>
       </button>
     </div>
-
   </div>
 </section>
 
