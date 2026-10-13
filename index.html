@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Алла Петльована — портфоліо досягнень вчителя англійської мови</title>
 <meta name="description" content="Портфоліо досягнень вчителя англійської мови Алли Петльованої: освіта, методична робота, результати, курси, дипломи та грамоти.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,9 +15,9 @@
   --disp:'Unbounded',sans-serif; --body:'Onest',sans-serif;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:90px}
+html{scroll-behavior:smooth;scroll-padding-top:90px;-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
-body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+body{margin:0;overflow-x:clip;background:var(--paper);color:var(--ink);font:17px/1.6 var(--body);-webkit-font-smoothing:antialiased}
 h1,h2,h3{font-family:var(--disp);margin:0;line-height:1.12;letter-spacing:-.02em}
 a{color:inherit}
 .wrap{max-width:1200px;margin:0 auto;padding:0 28px}
@@ -27,7 +27,8 @@ section{padding:110px 0}
 .dark :focus-visible,header :focus-visible{outline-color:var(--sun)}
 
 /* два колонки: заголовок розділу + вміст */
-.split{display:grid;grid-template-columns:minmax(260px,360px) 1fr;gap:64px;align-items:start}
+.split{display:grid;grid-template-columns:minmax(260px,360px) minmax(0,1fr);gap:64px;align-items:start}
+.split>*{min-width:0}
 .head{position:sticky;top:110px}
 .head .n{display:block;font:800 clamp(80px,9vw,128px)/.9 var(--disp);color:transparent;-webkit-text-stroke:2px var(--cobalt);margin-bottom:18px}
 .dark .head .n{-webkit-text-stroke-color:var(--sun)}
@@ -39,7 +40,7 @@ section{padding:110px 0}
 h3.sub{font-size:19px;font-weight:700;margin:0 0 18px}
 @media(max-width:960px){
   section{padding:80px 0}
-  .split{grid-template-columns:1fr;gap:34px}
+  .split{grid-template-columns:minmax(0,1fr);gap:30px}
   .head{position:static}
   .head .n{font-size:84px}
 }
@@ -69,22 +70,12 @@ nav a.active{background:var(--sun);color:var(--navy)}
 .subline span{display:block;margin-top:4px;font-size:.78em;font-weight:500;color:rgba(255,255,255,.78)}
 .photo{grid-area:photo;aspect-ratio:4/5;background:#1B2FD0;border:0;box-shadow:20px 20px 0 var(--sun);display:flex;align-items:center;justify-content:center;text-align:center;color:rgba(255,255,255,.8);font-size:15px;padding:20px;position:relative;overflow:hidden}
 .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-@media(max-width:860px){
-  #top{padding:120px 0 150px;clip-path:polygon(0 0,100% 0,100% 100%,0 calc(100% - 40px))}
-  .cover{grid-template-columns:1fr;grid-template-areas:"intro" "photo";gap:44px;align-items:start}
-  #top h1{font-size:clamp(34px,11.5vw,80px)}
-  .photo{max-width:340px;width:calc(100% - 20px);box-shadow:14px 14px 0 var(--sun)}
-}
 
 #general{background:var(--paper);padding-top:70px}
 #method{background:var(--white)}
 #results{position:relative;z-index:1;background:var(--navy);color:var(--white);padding-bottom:190px;clip-path:polygon(0 0,100% 0,100% 100%,0 calc(100% - 80px))}
 
 #courses{background:var(--white);margin-top:-80px;padding-top:190px}
-@media(max-width:860px){
-  #results{padding-bottom:130px;clip-path:polygon(0 0,100% 0,100% 100%,0 calc(100% - 40px))}
-  #courses{margin-top:-40px;padding-top:120px}
-}
 #docs{background:var(--paper)}
 
 /* рядки (освіта, позакласна, курси) */
@@ -215,6 +206,123 @@ tbody tr:hover td{background:#EEF1FF}
 
 footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-align:center;font-size:15px;border-top:6px solid var(--sun)}
 @media print{header,.filters,.viewer{display:none}#top,#results{clip-path:none;padding:40px 0}#courses{margin-top:0;padding-top:28px}section{break-inside:avoid;padding:28px 0}}
+
+/* ===== МОБІЛЬНА ВЕРСІЯ (єдиний блок, стоїть останнім) ===== */
+@media(max-width:860px){
+  body{font-size:16px}
+  .wrap{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+  section{padding:64px 0}
+  #general{padding-top:48px}
+  h1,h2,h3,p,b,small,.row,.lesson b{overflow-wrap:break-word;word-break:normal}
+
+  /* меню: не вилазить за екран, гортається всередині */
+  header{top:calc(env(safe-area-inset-top,0px) + 10px);padding:0 10px}
+  nav{max-width:100%;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+  nav a{font-size:14.5px;padding:9px 14px;flex:none}
+
+  /* обкладинка */
+  #top{padding:104px 0 110px;clip-path:polygon(0 0,100% 0,100% 100%,0 calc(100% - 40px))}
+  #top::before{right:-10vw;top:12vh;font-size:78vw}
+  .cover{grid-template-columns:minmax(0,1fr);grid-template-areas:"intro" "photo";gap:36px;align-items:start}
+  .role{font-size:17px;gap:12px;margin-bottom:18px}
+  .role::before{width:36px;height:3px}
+  #top h1{font-size:clamp(28px,10vw,80px);letter-spacing:-.04em}
+  .subline{margin-top:24px;font-size:clamp(18px,5vw,24px)}
+  .photo{width:calc(100% - 12px);max-width:340px;box-shadow:12px 12px 0 var(--sun);margin:0 0 12px}
+
+  /* заголовки розділів */
+  .head .n{font-size:64px;margin-bottom:12px;-webkit-text-stroke-width:1.5px}
+  .head h2{font-size:clamp(19px,5.2vw,24px)}
+  .lead{font-size:16.5px;margin-bottom:24px}
+  h3.sub{font-size:17px;margin-bottom:14px}
+  .rows + h3.sub{margin-top:40px}
+
+  /* загальні відомості */
+  .about{font-size:17px;margin-bottom:40px}
+  .creed{padding:62px 20px 24px;margin:0 6px 40px 0;box-shadow:6px 6px 0 var(--sun)}
+  .creed::before{font-size:84px;left:18px;top:8px}
+  .creed p{font-size:clamp(18px,5vw,22px)}
+  .tenure{grid-template-columns:minmax(0,1fr);gap:6px;padding:24px 22px;margin-bottom:40px}
+  .tenure::after{width:100px;height:100px;right:-34px;top:-34px}
+  .tenure .num{font-size:84px}
+  .tenure b{font-size:clamp(16px,4.6vw,20px)}
+  .rows.edu[style]{margin-bottom:40px!important}
+
+  /* методична робота */
+  .topic{padding:28px 22px;margin-bottom:36px}
+  .topic::after{width:120px;height:120px;right:-40px;bottom:-40px}
+  .topic h3{max-width:none;font-size:clamp(18px,5vw,23px)}
+  .topic.alt{margin-top:40px;padding:22px}
+  .lessons{grid-template-columns:minmax(0,1fr);gap:16px}
+  .lesson{min-height:0;gap:18px;padding:18px 16px}
+  .lesson b{font-size:16.5px}
+  .lesson .pdf{width:40px;height:48px;font-size:11px}
+  .lesson .go{padding:8px 16px}
+  .thumbs img{height:64px}
+
+  /* результати */
+  #results{padding-bottom:120px;clip-path:polygon(0 0,100% 0,100% 100%,0 calc(100% - 40px))}
+  #courses{margin-top:-40px;padding-top:110px}
+  .chart{padding:20px 14px}
+  .chart h3{font-size:16px}
+  .bars{height:230px;gap:6px;margin-top:20px}
+  .labels{gap:6px}
+  .labels span{font-size:11.5px;letter-spacing:-.02em}
+  .bar-col span{font-size:13px}
+  .kpis{grid-template-columns:minmax(0,1fr);gap:18px;margin-top:24px}
+  .kpi b{font-size:40px}
+  .kpi span{max-width:none}
+  #results h3.sub{margin-top:40px}
+  .scroll{-webkit-overflow-scrolling:touch;margin-right:calc(-1 * max(20px,env(safe-area-inset-right)));padding-right:max(20px,env(safe-area-inset-right))}
+  table{min-width:520px;font-size:14px}
+  th,td{padding:12px 14px}
+
+  /* рядки (освіта, курси) */
+  .row,.rows.edu .row{grid-template-columns:minmax(0,1fr);gap:6px;padding:20px 2px}
+  .row .y{font-size:17px}
+  .row b{font-size:17px}
+  .row small{font-size:14.5px}
+  .row .tag{justify-self:start;margin-top:6px}
+
+  /* документи */
+  .filters{gap:8px;margin-bottom:22px}
+  .filters button{font-size:14px;padding:8px 16px}
+  .docs{grid-template-columns:minmax(0,1fr);gap:18px}
+  .doc .b{padding:16px 18px 18px}
+
+  /* перегляд PDF і фото на весь екран */
+  .viewer{padding:0}
+  .viewer-box{border-top-width:6px;max-width:none}
+  .viewer-bar{padding:10px 12px calc(10px)}
+  .viewer-close{padding:8px 14px 8px 10px;font-size:14px}
+  .viewer-title{font-size:14px}
+  .viewer-tabs{padding:8px 12px}
+  .viewer-photos{grid-template-columns:repeat(2,minmax(0,1fr));padding:12px;gap:10px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+  .lightbox img{max-width:100vw;max-height:78vh;max-height:78dvh}
+  .lb-btn{width:44px;height:44px}
+  .lb-prev{left:8px}.lb-next{right:8px}
+  .lb-close{top:calc(env(safe-area-inset-top,0px) + 12px);right:12px}
+
+  footer{padding:32px 20px calc(32px + env(safe-area-inset-bottom,0px));font-size:14px}
+}
+
+/* дуже вузькі екрани (до ~360px) */
+@media(max-width:380px){
+  .wrap{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+  nav a{font-size:13.5px;padding:8px 12px}
+  #top h1{font-size:clamp(26px,9.6vw,40px)}
+  .head .n{font-size:54px}
+  .viewer-photos{grid-template-columns:minmax(0,1fr)}
+  .tenure .num{font-size:72px}
+}
+
+/* на сенсорних екранах без ефектів наведення, які «залипають» */
+@media(hover:none){
+  .lesson:hover,.doc:hover,.viewer-photos button:hover{transform:none;box-shadow:none;background:inherit}
+  .lesson:hover{background:var(--paper)}
+  .row:hover{background:none}
+  tbody tr:hover td{background:var(--white)}
+}
 </style>
 </head>
 <body>
@@ -425,7 +533,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   <div class="wrap split">
     <div class="head"><span class="n">5</span><h2>Офіційні документи</h2></div>
     <div class="body">
-      <p class="lead">Дипломи, сертифікати, грамоти та подяки.</p>
+      <p class="lead">Дипломи, сертифікати, грамоти та подяки. Замініть підписи і додайте фото документів.</p>
       <div class="filters" id="filters">
         <button aria-pressed="true" data-f="all">Усі</button>
         <button aria-pressed="false" data-f="Диплом">Дипломи</button>
@@ -505,10 +613,19 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
 
   const secs = [...document.querySelectorAll('main section[id]')];
   const links = document.querySelectorAll('nav a');
+  let lastCur = null;
   const setActive = () => {
     let cur = secs[0].id;
     secs.forEach(s => { if (window.scrollY + 160 >= s.offsetTop) cur = s.id; });
     links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+    if (cur !== lastCur) {
+      if (lastCur !== null || location.hash) {
+        try { history.replaceState(null, '', '#' + cur); } catch (e) {}
+      }
+      lastCur = cur;
+      const act = document.querySelector('nav a.active'), nv = document.querySelector('nav');
+      if (act && nv.scrollWidth > nv.clientWidth) nv.scrollTo({ left: act.offsetLeft - (nv.clientWidth - act.offsetWidth) / 2, behavior: 'smooth' });
+    }
   };
   const hdr = document.querySelector('header');
   const onScroll = () => { setActive(); hdr.classList.toggle('scrolled', window.scrollY > 10); };
