@@ -381,7 +381,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
           <span class="y">1999</span>
           <div>
             <b>Київський коледж Головного управління освіти держадміністрації м. Києва при Київському університеті імені Тараса Шевченка</b>
-            <small>Спеціальність: Педагогіка<br>Диплом Бакалавра КВ№11008634</small>
+            <small>Спеціальність: Педагогіка<br>Диплом Бакалавра КВ №11008634</small>
           </div>
         </div>
         <div class="row">
@@ -655,7 +655,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   let lastBtn = null, lbList = [], lbIndex = 0, lbOpener = null, lbTitle = '', lbType = 'photo';
 
   const checkImg = src => new Promise(res => { const i = new Image(); i.onload = () => res(src); i.onerror = () => res(null); i.src = src; });
-  const EXTS = ['jpg', 'jpeg', 'png', 'webp', 'JPG', 'JPEG', 'PNG'];
+  const EXTS = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'jfif', 'JPG', 'JPEG', 'PNG', 'WEBP'];
   const probeOne = async (folder, n) => { for (const e of EXTS) { const r = await checkImg(folder + '/' + n + '.' + e); if (r) return r; } return null; };
   const probeFolder = async (folder, max = 60) => {
     const out = [];
@@ -1002,7 +1002,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       grid.querySelectorAll('.doc[data-placeholder][data-t="' + type + '"]').forEach(el => el.remove());
       const addDocument = (src, number, format, allPdfs = [], pdfIndex = number - 1) => {
         const info = DOC_TITLES[folder + '/' + number];
-        const title = Array.isArray(info) ? info[0] : (info || type + ' №' + number);
+        const title = (Array.isArray(info) ? info[0] : info) || (type + ' №' + number);
         const sub = Array.isArray(info) ? info[1] : '';
         const art = document.createElement('article');
         art.className = 'doc real';
