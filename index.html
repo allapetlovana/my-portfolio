@@ -1002,7 +1002,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       grid.querySelectorAll('.doc[data-placeholder][data-t="' + type + '"]').forEach(el => el.remove());
       const addDocument = (src, number, format, allPdfs = [], pdfIndex = number - 1) => {
         const info = DOC_TITLES[folder + '/' + number];
-        const title = (Array.isArray(info) ? info[0] : info) || (type + ' №' + number);
+        const title = Array.isArray(info) ? info[0] : (info || type + ' №' + number);
         const sub = Array.isArray(info) ? info[1] : '';
         const art = document.createElement('article');
         art.className = 'doc real';
@@ -1024,9 +1024,9 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
           preview = document.createElement('button');
           preview.type = 'button';
           preview.className = 'img';
-          preview.setAttribute('aria-label', 'Збільшити: ' + title);
+          preview.setAttribute('aria-label', 'Збільшити: ' + (title || type));
           const im = document.createElement('img');
-          im.src = src; im.alt = title; im.loading = 'lazy';
+          im.src = src; im.alt = title || type; im.loading = 'lazy';
           preview.appendChild(im);
           preview.addEventListener('click', () => openLightbox(list, number - 1, preview, type));
         }
@@ -1034,7 +1034,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
         b.className = 'b';
         b.innerHTML = '<div class="t"></div><h3></h3>' + (sub ? '<p></p>' : '');
         b.querySelector('.t').textContent = (Array.isArray(info) && info[2]) || type;
-        b.querySelector('h3').textContent = title;
+        if (title) b.querySelector('h3').textContent = title; else b.querySelector('h3').remove();
         if (sub) b.querySelector('p').textContent = sub;
         art.append(preview, b);
         grid.appendChild(art);
