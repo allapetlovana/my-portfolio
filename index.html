@@ -133,6 +133,11 @@ html.lock{overflow:hidden!important;scroll-behavior:auto}
 .viewer-close svg{width:20px;height:20px}
 .viewer-title{flex:1;min-width:0;font:700 16px var(--disp);letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .viewer iframe{flex:1;width:100%;border:0;background:#e9e6dc}
+.viewer-pdfpages{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#e9e6dc;padding:12px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.viewer-pdfpages[hidden]{display:none}
+.viewer-pdfpages canvas{display:block;width:100%;max-width:900px;height:auto;background:#fff;box-shadow:0 4px 16px rgba(14,19,48,.18)}
+.viewer-pdfpages .pdf-open{flex:none;display:inline-block;padding:11px 18px;border-radius:999px;background:var(--sun);color:var(--navy);font:700 14px var(--body);text-decoration:none}
+.viewer-pdfpages .pdf-msg{margin:8px 0;color:var(--muted);font:500 15px var(--body);text-align:center}
 .viewer video{flex:1;min-height:0;width:100%;background:#000;object-fit:contain}
 .viewer video[hidden]{display:none}
 .viewer-video-list{flex:1;min-height:0;overflow-y:auto;padding:22px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;align-content:start;background:var(--paper)}
@@ -577,6 +582,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       <button type="button" role="tab" data-tab="pdf" aria-selected="false">Конспект</button>
     </div>
     <iframe id="viewerFrame" title="PDF-документ" src="about:blank"></iframe>
+    <div class="viewer-pdfpages" id="viewerPdfPages" hidden></div>
     <div class="viewer-video-list" id="viewerVideoList" aria-label="Відео уроку" hidden></div>
     <div class="viewer-photos" id="viewerPhotos" hidden></div>
     <div class="viewer-text" id="viewerText" hidden><article class="text-body" id="viewerTextBody"></article></div>
@@ -855,8 +861,53 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
     showLb();
   };
 
+  const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const vPdfPages = document.getElementById('viewerPdfPages');
+  const PDFJS_BASE = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';
+  let pdfJsPromise = null, pdfToken = 0, currentPdf = '', pdfRendered = false;
+  const loadPdfJs = () => pdfJsPromise || (pdfJsPromise = new Promise((resolve, reject) => {
+    const sc = document.createElement('script');
+    sc.src = PDFJS_BASE + 'pdf.min.js';
+    sc.onload = () => { window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_BASE + 'pdf.worker.min.js'; resolve(window.pdfjsLib); };
+    sc.onerror = () => { pdfJsPromise = null; reject(new Error('pdf.js')); };
+    document.head.appendChild(sc);
+  }));
+  const renderPdfPages = async src => {
+    const token = ++pdfToken;
+    vPdfPages.innerHTML = '';
+    const link = document.createElement('a');
+    link.className = 'pdf-open'; link.href = src; link.target = '_blank'; link.rel = 'noopener';
+    link.textContent = 'Відкрити конспект в новій вкладці';
+    const msg = document.createElement('p');
+    msg.className = 'pdf-msg'; msg.textContent = 'Завантаження конспекту…';
+    vPdfPages.append(link, msg);
+    try {
+      const lib = await loadPdfJs();
+      const doc = await lib.getDocument(src).promise;
+      if (token !== pdfToken) return;
+      msg.remove();
+      const w = Math.min((vPdfPages.clientWidth || window.innerWidth) - 24, 900);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      for (let n = 1; n <= doc.numPages; n++) {
+        const page = await doc.getPage(n);
+        if (token !== pdfToken) return;
+        const base = page.getViewport({ scale: 1 });
+        const vp = page.getViewport({ scale: (w / base.width) * dpr });
+        const cv = document.createElement('canvas');
+        cv.width = Math.floor(vp.width); cv.height = Math.floor(vp.height);
+        vPdfPages.appendChild(cv);
+        await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
+      }
+    } catch (err) {
+      if (token !== pdfToken) return;
+      msg.textContent = 'Не вдалося показати конспект тут. Натисніть кнопку вище, щоб відкрити його окремо.';
+    }
+  };
+
   const showTab = name => {
-    frame.hidden = name !== 'pdf';
+    frame.hidden = !(name === 'pdf' && !isIOS);
+    vPdfPages.hidden = !(name === 'pdf' && isIOS);
+    if (name === 'pdf' && isIOS && currentPdf && !pdfRendered) { pdfRendered = true; renderPdfPages(currentPdf); }
     vPhotos.hidden = name !== 'photos';
     vVideoList.hidden = name !== 'video';
     vText.hidden = name !== 'text';
@@ -930,7 +981,8 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
     tabVideo.textContent = 'Відео (' + videos.length + ')';
     tabPhotos.textContent = 'Фото (' + photos.length + ')';
     vTabs.hidden = avail.length < 2;
-    frame.src = pdf ? pdf + '#view=FitH' : 'about:blank';
+    frame.src = (pdf && !isIOS) ? pdf + '#view=FitH' : 'about:blank';
+    currentPdf = pdf || ''; pdfRendered = false; pdfToken++; vPdfPages.innerHTML = '';
     showTab(avail.includes(tab) ? tab : (avail[0] || 'photos'));
     viewer.hidden = false;
     document.body.style.overflow = 'hidden';
@@ -940,6 +992,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   const closeViewer = () => {
     viewer.hidden = true;
     frame.src = 'about:blank';
+    pdfToken++; vPdfPages.innerHTML = ''; currentPdf = '';
     vPhotos.innerHTML = ''; vVideoList.innerHTML = ''; vTextBody.innerHTML = '';
     document.body.style.overflow = '';
     document.documentElement.classList.remove('lock');
