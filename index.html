@@ -135,7 +135,7 @@ html.lock{overflow:hidden!important;scroll-behavior:auto}
 .viewer iframe{flex:1;width:100%;border:0;background:#e9e6dc}
 .viewer-pdfpages{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#e9e6dc;padding:12px;display:flex;flex-direction:column;align-items:center;gap:12px}
 .viewer-pdfpages[hidden]{display:none}
-.viewer-pdfpages canvas{display:block;width:100%;max-width:900px;height:auto;background:#fff;box-shadow:0 4px 16px rgba(14,19,48,.18)}
+.viewer-pdfpages canvas{display:block;width:100%;max-width:1100px;height:auto;background:#fff;box-shadow:0 4px 16px rgba(14,19,48,.18)}
 .viewer-pdfpages .pdf-open{flex:none;display:inline-block;padding:11px 18px;border-radius:999px;background:var(--sun);color:var(--navy);font:700 14px var(--body);text-decoration:none}
 .viewer-pdfpages .pdf-msg{margin:8px 0;color:var(--muted);font:500 15px var(--body);text-align:center}
 .viewer video{flex:1;min-height:0;width:100%;background:#000;object-fit:contain}
@@ -862,6 +862,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
   };
 
   const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const usePdfJs = location.protocol !== 'file:';
   const vPdfPages = document.getElementById('viewerPdfPages');
   const PDFJS_BASE = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';
   let pdfJsPromise = null, pdfToken = 0, currentPdf = '', pdfRendered = false;
@@ -886,7 +887,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       const doc = await lib.getDocument(src).promise;
       if (token !== pdfToken) return;
       msg.remove();
-      const w = Math.min((vPdfPages.clientWidth || window.innerWidth) - 24, 900);
+      const w = Math.min((vPdfPages.clientWidth || window.innerWidth) - 24, 1100);
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       for (let n = 1; n <= doc.numPages; n++) {
         const page = await doc.getPage(n);
@@ -900,14 +901,19 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
       }
     } catch (err) {
       if (token !== pdfToken) return;
+      if (!isIOS) {
+        frame.src = src + '#view=FitH';
+        if (tabPdf.getAttribute('aria-selected') === 'true') { vPdfPages.hidden = true; frame.hidden = false; }
+        return;
+      }
       msg.textContent = 'Не вдалося показати конспект тут. Натисніть кнопку вище, щоб відкрити його окремо.';
     }
   };
 
   const showTab = name => {
-    frame.hidden = !(name === 'pdf' && !isIOS);
-    vPdfPages.hidden = !(name === 'pdf' && isIOS);
-    if (name === 'pdf' && isIOS && currentPdf && !pdfRendered) { pdfRendered = true; renderPdfPages(currentPdf); }
+    frame.hidden = !(name === 'pdf' && !usePdfJs);
+    vPdfPages.hidden = !(name === 'pdf' && usePdfJs);
+    if (name === 'pdf' && usePdfJs && currentPdf && !pdfRendered) { pdfRendered = true; renderPdfPages(currentPdf); }
     vPhotos.hidden = name !== 'photos';
     vVideoList.hidden = name !== 'video';
     vText.hidden = name !== 'text';
@@ -981,7 +987,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.7);padding:44px 28px;text-
     tabVideo.textContent = 'Відео (' + videos.length + ')';
     tabPhotos.textContent = 'Фото (' + photos.length + ')';
     vTabs.hidden = avail.length < 2;
-    frame.src = (pdf && !isIOS) ? pdf + '#view=FitH' : 'about:blank';
+    frame.src = (pdf && !usePdfJs) ? pdf + '#view=FitH' : 'about:blank';
     currentPdf = pdf || ''; pdfRendered = false; pdfToken++; vPdfPages.innerHTML = '';
     showTab(avail.includes(tab) ? tab : (avail[0] || 'photos'));
     viewer.hidden = false;
